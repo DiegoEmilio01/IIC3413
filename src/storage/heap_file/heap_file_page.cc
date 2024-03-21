@@ -1,0 +1,64 @@
+#include "heap_file_page.h"
+
+#include <cassert>
+
+#include "relational_model/record.h"
+#include "storage/heap_file/record_serializer.h"
+#include "storage/page.h"
+
+HeapFilePage::HeapFilePage(Page& page) :
+    page (page)
+{
+    dir_count  = reinterpret_cast<uint32_t*>(page.data());
+    free_space = reinterpret_cast<uint32_t*>(page.data() + sizeof(uint32_t));
+    dirs       = reinterpret_cast<int32_t*> (page.data() + 2*sizeof(uint32_t));
+
+    // if new page, initialize to be valid
+    // new pages comes with all bytes setted at 0
+    if (*dir_count == 0 && *free_space == 0) {
+        *free_space = Page::SIZE - 2*sizeof(uint32_t);
+        page.make_dirty();
+    }
+}
+
+
+HeapFilePage::~HeapFilePage() {
+    page.unpin();
+}
+
+
+uint32_t HeapFilePage::get_dir_count() const {
+    return *dir_count;
+}
+
+
+bool HeapFilePage::try_insert_record(Record& record, RID* out_record_id) {
+    // TODO: implement
+    // HINT: use RecordSerializer::serialize inside this method
+    // REMEMBER to set *out_record_id = RID(page.page_id.page_number, dir_pos) when returning true
+    *out_record_id = RID(page.page_id.page_number, 0);
+    return true;
+}
+
+
+void HeapFilePage::get_record(uint32_t dir_pos, Record& out) const {
+    assert(dirs[dir_pos] > 0);
+    // TODO: implement
+    // HINT: use RecordSerializer::deserialize inside this method
+}
+
+
+bool HeapFilePage::dir_deleted(uint32_t dir_pos) const {
+    // TODO: implement
+    return false;
+}
+
+
+void HeapFilePage::delete_record(uint32_t dir_pos) const {
+    // TODO: implement
+}
+
+
+void HeapFilePage::vacuum() {
+    // TODO: implement
+}
