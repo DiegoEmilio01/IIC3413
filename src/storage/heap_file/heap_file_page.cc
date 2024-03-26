@@ -3,11 +3,12 @@
 #include <cassert>
 
 #include "relational_model/record.h"
-#include "storage/heap_file/record_serializer.h"
+#include "relational_model/record_serializer.h"
+#include "relational_model/system.h"
 #include "storage/page.h"
 
-HeapFilePage::HeapFilePage(Page& page) :
-    page (page)
+HeapFilePage::HeapFilePage(FileId file_id, uint64_t page_number) :
+    page (buffer_mgr.get_page(file_id, page_number)) // get_page returns the page with a pin
 {
     dir_count  = reinterpret_cast<uint32_t*>(page.data());
     free_space = reinterpret_cast<uint32_t*>(page.data() + sizeof(uint32_t));

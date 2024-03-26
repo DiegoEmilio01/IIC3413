@@ -1,9 +1,9 @@
 #include "heap_file_iter.h"
 
+#include "relational_model/record_serializer.h"
 #include "relational_model/system.h"
 #include "storage/heap_file/heap_file.h"
 #include "storage/heap_file/heap_file_page.h"
-#include "storage/heap_file/record_serializer.h"
 
 
 HeapFileIter::HeapFileIter(HeapFile& heap_file) :
@@ -13,9 +13,7 @@ HeapFileIter::HeapFileIter(HeapFile& heap_file) :
     current_page_record_pos = -1;
 
     current_page_number = 0;
-    current_page = std::make_unique<HeapFilePage>(
-        buffer_mgr.get_page(heap_file.file_id, 0)
-    );
+    current_page = std::make_unique<HeapFilePage>(heap_file.file_id, 0);
     total_pages = file_mgr.count_pages(heap_file.file_id);
 }
 
@@ -36,7 +34,7 @@ bool HeapFileIter::next() {
 
             if (current_page_number < total_pages) {
                 current_page = std::make_unique<HeapFilePage>(
-                    buffer_mgr.get_page(heap_file.file_id, current_page_number)
+                    heap_file.file_id, current_page_number
                 );
                 continue;
             } else {
@@ -59,7 +57,5 @@ bool HeapFileIter::next() {
 void HeapFileIter::reset() {
     current_page_record_pos = -1;
     current_page_number = 0;
-    current_page = std::make_unique<HeapFilePage>(
-        buffer_mgr.get_page(heap_file.file_id, 0)
-    );
+    current_page = std::make_unique<HeapFilePage>(heap_file.file_id, 0);
 }
