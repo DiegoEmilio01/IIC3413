@@ -61,3 +61,17 @@ To use multiple cores during compilation (much faster) add `-j n` at the end of 
 ```bash
 cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug && cmake --build build/Debug/ -j 8
 ```
+Test the Project:
+--------------------------------------------------------------------------------
+To execute a test after building the project, it can be run by the command:
+```bash
+./build/Debug/tests/test_example_1
+```
+To create a file containing the output you can run:
+```bash
+./build/Debug/tests/test_example_1 >> output.out
+```
+To compare outputs you can run:
+```bash
+diff ./src/tests/outputs/test_example_1.out output.out
+```

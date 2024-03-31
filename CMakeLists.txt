@@ -57,7 +57,10 @@ set(BUILD_TARGETS
 )
 
 set(TEST_TARGETS
-    test_example
+    test_example_1
+    test_example_2
+    test_example_3
+    test_example_4
 )
 
 # Build targets
