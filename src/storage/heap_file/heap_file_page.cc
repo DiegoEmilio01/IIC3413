@@ -44,14 +44,13 @@ bool HeapFilePage::try_insert_record(Record& record, RID* out_record_id) {
 
 void HeapFilePage::get_record(uint32_t dir_pos, Record& out) const {
     assert(dirs[dir_pos] > 0);
-    // TODO: implement
-    // HINT: use RecordSerializer::deserialize inside this method
+    char* write_ptr = page.data() + dirs[dir_pos];
+    RecordSerializer::deserialize(write_ptr, out);
 }
 
 
 bool HeapFilePage::dir_deleted(uint32_t dir_pos) const {
-    // TODO: implement
-    return false;
+    return dirs[dir_pos] <= 0;
 }
 
 
