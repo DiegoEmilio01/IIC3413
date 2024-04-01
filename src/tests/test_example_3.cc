@@ -21,10 +21,10 @@ int main() {
     );
 
     Schema existing_table_schema;
-    HeapFile* table = catalog.get_table("test_3", &existing_table_schema);
+    HeapFile* table = catalog.get_table("test_1", &existing_table_schema);
 
     if (table == nullptr) { // table doesn't exist
-        table = catalog.create_table("test_3", table1_schema);
+        table = catalog.create_table("test_1", table1_schema);
     } else {
         assert(existing_table_schema == table1_schema);
     }

@@ -1,3 +1,8 @@
+// This test can be used to check if you correctly saved the data on your hardware
+// by using the method page.make_dirty().
+// After running a test twice, if you run this test the output should appear twice.
+// Notice that HeapFilePage constructor uses make_dirty,
+// so we need to run twice a test to check the persistency of our system.
 #include <iostream>
 
 #include "relational_model/record.h"
@@ -30,27 +35,6 @@ int main() {
     }
 
     Record record_buf({DataType::STR, DataType::INT});
-
-    record_buf.set({"test_record_1", 1});
-    auto r1 = table->insert_record(record_buf);
-
-    record_buf.set({"test_record_2", 2});
-    table->insert_record(record_buf);
-
-    record_buf.set({"test_record_3", 3});
-    auto r3 = table->insert_record(record_buf);
-
-    record_buf.set({"test_record_4", 4});
-    table->insert_record(record_buf);
-
-    table->delete_record(r3);
-
-    table->delete_record(r1);
-
-    table->vacuum();
-
-    record_buf.set({"test_record_5", 5});
-    table->insert_record(record_buf);
 
     auto table_iter = table->get_record_iter();
 
