@@ -51,9 +51,10 @@ include_directories(${CMAKE_SOURCE_DIR}/third_party/boost_1_81/include)
 
 # Define targets
 add_library(iic3413db STATIC ${SRCS})
+target_compile_definitions(iic3413db PUBLIC SERD_STATIC)
 
 set(BUILD_TARGETS
-    IIC3413DB
+    bin_example
 )
 
 set(TEST_TARGETS
