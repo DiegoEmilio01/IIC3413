@@ -98,7 +98,7 @@ size_t UnbufferedCharStream::LA(ssize_t i) {
     return EOF;
   }
 
-  if ((int)_data[static_cast<size_t>(index)] == std::char_traits<wchar_t>::eof()) {
+  if (static_cast<long>(_data[static_cast<size_t>(index)]) == static_cast<long>(std::char_traits<wchar_t>::eof())) {
     return EOF;
   }
 
