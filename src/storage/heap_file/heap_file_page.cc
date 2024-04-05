@@ -59,6 +59,6 @@ void HeapFilePage::delete_record(uint32_t dir_pos) const {
 }
 
 
-void HeapFilePage::vacuum() {
+void HeapFilePage::vacuum(const Schema& schema) {
     // TODO: implement
 }

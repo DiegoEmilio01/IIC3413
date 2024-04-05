@@ -48,6 +48,6 @@ void HeapFile::vacuum() {
 
     for (uint64_t i = 0; i < total_pages; i++) {
         HeapFilePage page(file_id, i);
-        page.vacuum();
+        page.vacuum(schema);
     }
 }

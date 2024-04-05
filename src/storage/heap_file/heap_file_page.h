@@ -19,7 +19,7 @@ public:
     // when the function returns true, the out_record_id is setted
     bool try_insert_record(Record& record, RID* out_record_id);
 
-    void vacuum();
+    void vacuum(const Schema& schema);
 
     void get_record(uint32_t dir_pos, Record& out) const;
 
