@@ -33,11 +33,9 @@ uint32_t HeapFilePage::get_dir_count() const {
 }
 
 
-bool HeapFilePage::try_insert_record(Record& record, RID* out_record_id) {
-    // TODO: implement
-    // HINT: use RecordSerializer::serialize inside this method
-    // REMEMBER to set *out_record_id = RID(page.page_id.page_number, dir_pos) when returning true
-    *out_record_id = RID(page.page_id.page_number, 0);
+bool HeapFilePage::try_insert_record(const Record& record, RID* out_record_id) {
+    // TODO: not available until Lab1 extension is over
+    // T2 branch will be updated at April 20th with this method
     return true;
 }
 
@@ -55,10 +53,12 @@ bool HeapFilePage::dir_deleted(uint32_t dir_pos) const {
 
 
 void HeapFilePage::delete_record(uint32_t dir_pos) const {
-    // TODO: implement
+    // TODO: not available until Lab1 extension is over
+    // T2 branch will be updated at April 20th with this method
 }
 
 
 void HeapFilePage::vacuum(const Schema& schema) {
-    // TODO: implement
+    // TODO: not available until Lab1 extension is over
+    // T2 branch will be updated at April 20th with this method
 }

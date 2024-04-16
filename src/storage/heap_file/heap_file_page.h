@@ -17,7 +17,7 @@ public:
 
     // returns true if record was inserted, false if no space available
     // when the function returns true, the out_record_id is setted
-    bool try_insert_record(Record& record, RID* out_record_id);
+    bool try_insert_record(const Record& record, RID* out_record_id);
 
     void vacuum(const Schema& schema);
 

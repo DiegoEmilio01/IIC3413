@@ -29,6 +29,7 @@
         "groupconcat",
         "imfd",
         "iriref",
+        "isam",
         "isblank",
         "isiri",
         "isliteral",

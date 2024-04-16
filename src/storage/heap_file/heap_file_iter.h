@@ -3,13 +3,14 @@
 #include <memory>
 
 #include "relational_model/relation_iter.h"
+#include "storage/heap_file/rid.h"
 
 class HeapFile;
 class HeapFilePage;
 
 class HeapFileIter : public RelationIter {
 public:
-    HeapFileIter(HeapFile& heap_file);
+    HeapFileIter(const HeapFile& heap_file);
 
     virtual void begin(Record& out) override;
 
@@ -17,8 +18,10 @@ public:
 
     virtual void reset() override;
 
+    RID get_current_RID() const;
+
 private:
-    HeapFile& heap_file;
+    const HeapFile& heap_file;
 
     std::unique_ptr<HeapFilePage> current_page;
 

@@ -1,13 +1,5 @@
-// This test can be used to check if you correctly saved the data on your hardware
-// by using the method page.make_dirty().
-// After running a test twice, if you run this test the output should appear twice.
-// Notice that HeapFilePage constructor uses make_dirty,
-// so we need to run twice a test to check the persistency of our system.
 #include <iostream>
 
-#include "relational_model/record.h"
-#include "relational_model/relation_iter.h"
-#include "relational_model/schema.h"
 #include "relational_model/system.h"
 
 constexpr uint64_t GB = 1024 * 1024 * 1024; // 1 GB
@@ -26,21 +18,32 @@ int main() {
     );
 
     Schema existing_table_schema;
-    HeapFile* table = catalog.get_table("test_1", &existing_table_schema);
+
+    std::string table1 = "test_1";
+    HeapFile* table = catalog.get_table(table1, &existing_table_schema);
 
     if (table == nullptr) { // table doesn't exist
-        table = catalog.create_table("test_1", table1_schema);
+        table = catalog.create_table(table1, table1_schema);
+        for (int i = 0; i < 10000; i++) {
+            catalog.insert_record(table1, {"test_record_A" + std::to_string(i), i});
+            catalog.insert_record(table1, {"test_record_B" + std::to_string(i), 10*i});
+        }
+
+        catalog.create_non_clustered_isam(table1, 0); // 0 represents col1
+
     } else {
         assert(existing_table_schema == table1_schema);
     }
 
-    Record record_buf({DataType::STR, DataType::INT});
+    auto isam = catalog.get_index(table1);
+    assert(isam != nullptr);
 
-    auto table_iter = table->get_record_iter();
+    auto iter = isam->get_iter(Value("test_record_B50"), Value("test_record_B51"));
 
-    table_iter->begin(record_buf);
+    Record& record_buf = catalog.get_record_buf(table1);
+    iter->begin(record_buf);
 
-    while (table_iter->next()) {
+    while (iter->next()) {
         // print result
         std::cout << record_buf << "\n";
     }

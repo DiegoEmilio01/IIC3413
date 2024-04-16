@@ -5,7 +5,7 @@
             "name": "Test Example",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Debug/tests/test_example",
+            "program": "${workspaceFolder}/build/Debug/tests/test_t2",
             "args": [
             ],
             "cwd": "${workspaceFolder}",

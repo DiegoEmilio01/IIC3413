@@ -6,7 +6,7 @@
 #include "storage/heap_file/heap_file_page.h"
 
 
-HeapFileIter::HeapFileIter(HeapFile& heap_file) :
+HeapFileIter::HeapFileIter(const HeapFile& heap_file) :
     heap_file (heap_file)
 {
     // value starts as -1 because in next we always sum 1 before processing
@@ -58,4 +58,9 @@ void HeapFileIter::reset() {
     current_page_record_pos = -1;
     current_page_number = 0;
     current_page = std::make_unique<HeapFilePage>(heap_file.file_id, 0);
+}
+
+
+RID HeapFileIter::get_current_RID() const {
+    return RID(current_page_number, current_page_record_pos);
 }

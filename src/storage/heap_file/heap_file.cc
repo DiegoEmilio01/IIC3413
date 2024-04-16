@@ -10,12 +10,10 @@ HeapFile::HeapFile(const Schema& schema, const std::string& table_name) :
     file_id (file_mgr.get_file_id(table_name)) { }
 
 
-RID HeapFile::insert_record(Record& record) {
-    uint64_t current_page_number = 0;
-
+RID HeapFile::insert_record(const Record& record) {
     // buffer_mgr.get_page will pin the page
     auto current_page = std::make_unique<HeapFilePage>(
-        file_id, current_page_number
+        file_id, last_insert_page
     );
     RID res;
 
@@ -24,15 +22,15 @@ RID HeapFile::insert_record(Record& record) {
         if (current_page->try_insert_record(record, &res)) {
             return res;
         }
-        current_page_number++;
+        last_insert_page++;
         current_page = std::make_unique<HeapFilePage>(
-            file_id, current_page_number
+            file_id, last_insert_page
         );
     }
 }
 
 
-std::unique_ptr<RelationIter> HeapFile::get_record_iter() {
+std::unique_ptr<HeapFileIter> HeapFile::get_record_iter() const {
     return std::make_unique<HeapFileIter>(*this);
 }
 
@@ -50,4 +48,10 @@ void HeapFile::vacuum() {
         HeapFilePage page(file_id, i);
         page.vacuum(schema);
     }
+    last_insert_page = 0;
+}
+
+void HeapFile::get_record(RID rid, Record& out) const {
+    HeapFilePage page(file_id, rid.page_num);
+    page.get_record(rid.dir_slot, out);
 }

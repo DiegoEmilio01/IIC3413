@@ -38,14 +38,14 @@ void write_int64(int64_t i, char* out) {
 size_t RecordSerializer::get_size(const Record& record) {
     size_t res = 0;
     for (size_t i = 0; i < record.values.size(); i++) {
-        switch (record.types[i]) {
+        switch (record.values[i].datatype) {
         case DataType::INT: {
             res += sizeof(int64_t);
             break;
         }
         case DataType::STR: {
             // one additional byte for the strlen at beginning
-            res += 1 + strlen(record.values[i].str_value);
+            res += 1 + strlen(record.values[i].value.as_str);
             break;
         }
         }
@@ -56,16 +56,16 @@ size_t RecordSerializer::get_size(const Record& record) {
 
 void RecordSerializer::serialize(const Record& record, char* out) {
     auto current_out = out;
-    for (size_t i = 0; i < record.types.size(); i++) {
-        switch (record.types[i]) {
+    for (auto& v : record.values) {
+        switch (v.datatype) {
         case DataType::INT: {
-            write_int64(record.values[i].int_value, current_out);
+            write_int64(v.value.as_int, current_out);
             current_out += sizeof(int64_t);
             break;
         }
         case DataType::STR: {
-            char* str = record.values[i].str_value;
-            uint8_t len = strlen(record.values[i].str_value);
+            char* str = v.value.as_str;
+            uint8_t len = strlen(v.value.as_str);
             *current_out = static_cast<char>(len);
             current_out++;
 
@@ -81,10 +81,10 @@ void RecordSerializer::serialize(const Record& record, char* out) {
 void RecordSerializer::deserialize(const char* in, Record& record) {
     auto current_in = in;
 
-    for (size_t i = 0; i < record.types.size(); i++) {
-        switch (record.types[i]) {
+    for (auto& v : record.values) {
+        switch (v.datatype) {
         case DataType::INT: {
-            record.values[i].int_value = read_int64(current_in);
+            v.value.as_int = read_int64(current_in);
             current_in += sizeof(int64_t);
             break;
         }
@@ -92,10 +92,10 @@ void RecordSerializer::deserialize(const char* in, Record& record) {
             uint8_t len = *reinterpret_cast<const uint8_t*>(current_in);
             current_in++;
 
-            memcpy(record.values[i].str_value, current_in, len);
+            memcpy(v.value.as_str, current_in, len);
             current_in += len;
 
-            record.values[i].str_value[len] = '\0';
+            v.value.as_str[len] = '\0';
             break;
         }
         }

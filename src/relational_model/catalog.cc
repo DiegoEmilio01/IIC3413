@@ -5,8 +5,42 @@
 #include "relational_model/schema.h"
 #include "relational_model/system.h"
 #include "storage/heap_file/heap_file.h"
+#include "storage/isam/isam_nonclustered.h"
+#include "storage/isam/isam_nonclustered_dir.h"
 
 using namespace std;
+
+std::string normalize(const std::string& table_name) {
+    std::string res = table_name;
+    std::transform(res.begin(),
+                   res.end(),
+                   res.begin(),
+                   [](unsigned char c){ return std::tolower(c); }
+    );
+
+    for (char c : res) {
+        if (c < 'a' && c > 'z' && c != '_') {
+            throw std::invalid_argument("wrong table name: \""
+                + table_name
+                + "\". only a-z letters and underscore ('_') are allowed.");
+        }
+    }
+    return res;
+}
+
+uint64_t Catalog::get_table_pos(const std::string& table_name) {
+    std::string normalized_table_name = normalize(table_name);
+    auto found = table_name_idx.find(normalized_table_name);
+    if (found != table_name_idx.end()) {
+        return found->second;
+    } else {
+        throw std::invalid_argument("table: \""
+                + table_name
+                + "\" does not exists.");
+    }
+}
+
+
 
 Catalog::Catalog(const string& filename) {
     auto file_path = file_mgr.get_file_path(filename);
@@ -45,10 +79,28 @@ Catalog::Catalog(const string& filename) {
         auto heap_file = std::make_unique<HeapFile>(schema_ref, table_name);
         table_name_idx.insert({table_name, tables.size()});
 
+        std::unique_ptr<Index> index;
+
+        IndexType index_type = static_cast<IndexType>(read_uint64());
+        switch (index_type) {
+            case IndexType::NC_ISAM: {
+                auto key_col_idx = read_uint64();
+                index = std::make_unique<IsamNonClustered>(
+                    *heap_file.get(),
+                    key_col_idx,
+                    normalize(table_name) + ".nc_isam"
+                );
+                break;
+            }
+            case IndexType::NONE:
+                break;
+        }
+
         tables.emplace_back(
             table_name,
             std::move(schema),
-            std::move(heap_file)
+            std::move(heap_file),
+            std::move(index)
         );
     }
 }
@@ -68,6 +120,23 @@ Catalog::~Catalog() {
         for (size_t i = 0; i < schema->column_names.size(); i++) {
             write_uint64(static_cast<uint64_t>(schema->datatypes[i]));
             write_string(schema->column_names[i]);
+        }
+
+        // write index type
+        if (table_info.index == nullptr) {
+            write_uint64(static_cast<uint64_t>(IndexType::NONE));
+        } else {
+            auto index_type = table_info.index->get_type();
+            write_uint64(static_cast<uint64_t>(index_type));
+            switch (index_type) {
+            case IndexType::NC_ISAM: {
+                auto casted = reinterpret_cast<IsamNonClustered*>(table_info.index.get());
+                write_uint64(casted->key_column_idx);
+                break;
+            }
+            case IndexType::NONE:
+                break;
+        }
         }
     }
 
@@ -118,21 +187,7 @@ void Catalog::write_string(const string& s) {
 
 
 HeapFile* Catalog::create_table(const std::string& table_name, const Schema& schema) {
-    std::string normalized_table_name = table_name;
-
-    std::transform(normalized_table_name.begin(),
-                   normalized_table_name.end(),
-                   normalized_table_name.begin(),
-                   [](unsigned char c){ return std::tolower(c); }
-    );
-
-    for (char c : normalized_table_name) {
-        if (c < 'a' && c > 'z' && c != '_') {
-            throw std::invalid_argument("wrong table name: \""
-                + table_name
-                + "\". only a-z letters and underscore ('_') are allowed.");
-        }
-    }
+    std::string normalized_table_name = normalize(table_name);
 
     auto found = table_name_idx.find(normalized_table_name);
 
@@ -150,7 +205,8 @@ HeapFile* Catalog::create_table(const std::string& table_name, const Schema& sch
     tables.emplace_back(
         table_name,
         std::make_unique<Schema>(schema),
-        std::move(heap_file)
+        std::move(heap_file),
+        nullptr
     );
 
     return tables.back().heap_file.get();
@@ -158,21 +214,7 @@ HeapFile* Catalog::create_table(const std::string& table_name, const Schema& sch
 
 
 HeapFile* Catalog::get_table(const std::string& table_name, Schema* schema) {
-    std::string normalized_table_name = table_name;
-
-    std::transform(normalized_table_name.begin(),
-                   normalized_table_name.end(),
-                   normalized_table_name.begin(),
-                   [](unsigned char c){ return std::tolower(c); }
-    );
-
-    for (char c : normalized_table_name) {
-        if (c < 'a' && c > 'z' && c != '_') {
-            throw std::invalid_argument("wrong table name: \""
-                + table_name
-                + "\". only a-z letters and underscore ('_') are allowed.");
-        }
-    }
+    std::string normalized_table_name = normalize(table_name);
 
     auto found = table_name_idx.find(normalized_table_name);
 
@@ -182,4 +224,72 @@ HeapFile* Catalog::get_table(const std::string& table_name, Schema* schema) {
     } else {
         return nullptr;
     }
+}
+
+
+void Catalog::insert_record(const std::string& table_name, const Record& record) {
+    auto table_pos = get_table_pos(table_name);
+
+    auto rid = tables[table_pos].heap_file->insert_record(record);
+
+    auto index = tables[get_table_pos(table_name)].index.get();
+    if (index != nullptr) {
+        index->insert_record(rid);
+    }
+}
+
+
+void Catalog::insert_record(
+    const std::string& table_name,
+    const std::vector<std::variant<std::string, int64_t>>& values)
+{
+    auto table_pos = get_table_pos(table_name);
+
+    auto& record = *tables[table_pos].record_buf;
+    record.set(values);
+
+    auto rid = tables[table_pos].heap_file->insert_record(record);
+
+    auto index = tables[get_table_pos(table_name)].index.get();
+    if (index != nullptr) {
+        index->insert_record(rid);
+    }
+}
+
+void Catalog::delete_record(const std::string& table_name, RID rid) {
+    auto table_pos = get_table_pos(table_name);
+
+    // MUST delete from the index before the table, otherwise rid will be invalid
+    auto index = get_index(table_name);
+    if (index != nullptr) {
+        index->delete_record(rid);
+    }
+    tables[table_pos].heap_file->delete_record(rid);
+}
+
+
+void Catalog::create_non_clustered_isam(const std::string& table_name, int key_col_idx) {
+    auto table_pos = get_table_pos(table_name);
+
+    if (tables[table_pos].index != nullptr) {
+        throw std::invalid_argument("table: \""
+                + table_name
+                + "\" already has an index.");
+    }
+
+    tables[table_pos].index = std::make_unique<IsamNonClustered>(
+        *tables[table_pos].heap_file,
+        key_col_idx,
+        normalize(table_name) + ".nc_isam"
+    );
+}
+
+
+Index* Catalog::get_index(const std::string& table_name) {
+    return tables[get_table_pos(table_name)].index.get();
+}
+
+
+Record& Catalog::get_record_buf(const std::string& table_name) {
+    return *tables[get_table_pos(table_name)].record_buf;
 }

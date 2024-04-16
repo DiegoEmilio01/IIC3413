@@ -7,38 +7,29 @@
 #include <vector>
 
 #include "relational_model/schema.h"
-
-union OutValue {
-    char* str_value;
-    int64_t int_value;
-
-    explicit OutValue(char* str_value) : str_value(str_value) {}
-    explicit OutValue(int64_t int_value) : int_value(int_value) {}
-};
+#include "relational_model/value.h"
 
 class Record {
 public:
     static constexpr int64_t MAX_STRLEN = 255;
 
-    Record(std::vector<DataType>&& types);
+    Record(const std::vector<DataType>& types);
 
-    ~Record();
+    Record(const Record& other) = delete;
 
     void set(const std::vector<std::variant<std::string, int64_t>>& values);
 
     friend std::ostream& operator<<(std::ostream& os, const Record& o) {
-        assert(o.types.size() == o.values.size());
-
         char separator[2] = {'\0', '\0'};
-        for (unsigned i = 0; i < o.types.size(); i++) {
+        for (unsigned i = 0; i < o.values.size(); i++) {
             os << separator;
-            switch (o.types[i]) {
+            switch (o.values[i].datatype) {
             case DataType::INT: {
-                os << o.values[i].int_value;
+                os << o.values[i].value.as_int;
                 break;
             }
             case DataType::STR:
-                os << '"' << o.values[i].str_value << '"';
+                os << '"' << o.values[i].value.as_str << '"';
                 break;
             }
             separator[0] = ',';
@@ -46,7 +37,5 @@ public:
         return os;
     }
 
-    std::vector<OutValue> values;
-
-    std::vector<DataType> types;
+    std::vector<Value> values;
 };
