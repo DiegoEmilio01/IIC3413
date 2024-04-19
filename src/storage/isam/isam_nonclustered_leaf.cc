@@ -65,6 +65,6 @@ void IsamNonClusteredLeaf::insert_record(RID rid, int64_t key) {
 }
 
 
-void IsamNonClusteredLeaf::IsamNonClusteredLeaf::delete_record(RID rid) {
+void IsamNonClusteredLeaf::delete_record(RID rid) {
     // TODO: implement
 }
