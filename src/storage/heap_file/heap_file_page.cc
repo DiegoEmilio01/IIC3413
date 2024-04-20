@@ -34,8 +34,39 @@ uint32_t HeapFilePage::get_dir_count() const {
 
 
 bool HeapFilePage::try_insert_record(const Record& record, RID* out_record_id) {
-    // TODO: not available until Lab1 extension is over
-    // T2 branch will be updated at April 20th with this method
+    auto record_byte_len = RecordSerializer::get_size(record);
+
+    uint32_t new_dir_pos = 0;
+    while (!dir_deleted(new_dir_pos) && new_dir_pos < *dir_count) {
+        new_dir_pos++;
+    }
+
+    if (new_dir_pos < *dir_count) { // found dir pos to reuse
+        if (*free_space < record_byte_len)
+            return false;
+
+        *free_space -= record_byte_len;
+    } else { // new_dir_pos == *dir_count
+        if (*free_space < record_byte_len + sizeof(*dirs))
+            return false;
+
+        *dir_count += 1;
+        *free_space -= record_byte_len + sizeof(*dirs);
+    }
+
+    // We add all the sizes in the definition of the HeapFile
+    auto byte_offset = sizeof(*dir_count)
+                    + sizeof(*free_space)
+                    + (*dir_count) * sizeof(*dirs)
+                    + (*free_space);
+    dirs[new_dir_pos] = byte_offset;
+
+    // We save the record
+    RecordSerializer::serialize(record, page.data() + byte_offset);
+    page.make_dirty();
+
+    // We set the record
+    *out_record_id = RID(page.page_id.page_number, new_dir_pos);
     return true;
 }
 
@@ -53,12 +84,38 @@ bool HeapFilePage::dir_deleted(uint32_t dir_pos) const {
 
 
 void HeapFilePage::delete_record(uint32_t dir_pos) const {
-    // TODO: not available until Lab1 extension is over
-    // T2 branch will be updated at April 20th with this method
+    dirs[dir_pos] = -1;
 }
 
 
 void HeapFilePage::vacuum(const Schema& schema) {
-    // TODO: not available until Lab1 extension is over
-    // T2 branch will be updated at April 20th with this method
+    uint32_t new_free_space = Page::SIZE - 2 * sizeof(uint32_t);
+    uint32_t new_dir_count = 0;
+
+    Record record_buf(schema.datatypes);
+    char* page_buf = new char[Page::SIZE];
+    auto new_dirs = reinterpret_cast<int32_t*>(page_buf+ 2*sizeof(uint32_t));
+
+    for (uint32_t old_dir_pos = 0; old_dir_pos < *dir_count; old_dir_pos++) {
+        if (dirs[old_dir_pos] > 0) {
+            get_record(old_dir_pos, record_buf);
+            auto record_byte_len = RecordSerializer::get_size(record_buf);
+
+            new_dir_count++;
+            new_free_space -= record_byte_len + sizeof(*dirs);
+
+            auto byte_offset = sizeof(*dir_count)
+                             + sizeof(*free_space)
+                             + (new_dir_count) * sizeof(*dirs)
+                             + (new_free_space);
+            new_dirs[new_dir_count - 1] = byte_offset;
+            RecordSerializer::serialize(record_buf, page_buf + byte_offset);
+        }
+    }
+    std::memcpy(page.data(), page_buf, Page::SIZE);
+
+    *dir_count = new_dir_count;
+    *free_space = new_free_space;
+    page.make_dirty();
+    delete[] page_buf;
 }
