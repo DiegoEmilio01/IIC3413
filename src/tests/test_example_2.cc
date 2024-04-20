@@ -1,3 +1,5 @@
+// Test insertion in 2 pages
+// From test 2 to 5, they must be run in sequence
 #include <iostream>
 
 #include "relational_model/record.h"
@@ -21,19 +23,20 @@ int main() {
     );
 
     Schema existing_table_schema;
-    HeapFile* table = catalog.get_table("test_1", &existing_table_schema);
+    HeapFile* table = catalog.get_table("test_2", &existing_table_schema);
 
     if (table == nullptr) { // table doesn't exist
-        table = catalog.create_table("test_1", table1_schema);
+        table = catalog.create_table("test_2", table1_schema);
     } else {
         assert(existing_table_schema == table1_schema);
     }
 
     Record record_buf({DataType::STR, DataType::INT});
 
-    for (uint32_t i= 0; i < 100; i++) {
-        record_buf.set({"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", i});
+    for (uint32_t i= 0; i < 50; i++) {
+        record_buf.set({"...................................................................................................", i});
         table->insert_record(record_buf);
+        //std::cout << r.dir_slot << " - " << r.page_num << "\n";
     }
 
     auto table_iter = table->get_record_iter();

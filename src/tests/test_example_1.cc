@@ -1,3 +1,4 @@
+// Test persistent insertion
 #include <iostream>
 
 #include "relational_model/record.h"

@@ -62,6 +62,7 @@ set(TEST_TARGETS
     test_example_2
     test_example_3
     test_example_4
+    test_example_5
     test_make_dirty
 )
 

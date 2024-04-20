@@ -1,3 +1,4 @@
+// Test persistent deletion on both pages
 #include <iostream>
 
 #include "relational_model/record.h"
@@ -21,37 +22,20 @@ int main() {
     );
 
     Schema existing_table_schema;
-    HeapFile* table = catalog.get_table("test_1", &existing_table_schema);
+    HeapFile* table = catalog.get_table("test_2", &existing_table_schema);
 
     if (table == nullptr) { // table doesn't exist
-        table = catalog.create_table("test_1", table1_schema);
+        table = catalog.create_table("test_2", table1_schema);
     } else {
         assert(existing_table_schema == table1_schema);
     }
 
     Record record_buf({DataType::STR, DataType::INT});
+    //
 
-    record_buf.set({"test_record_1", 1});
-    auto r1 = table->insert_record(record_buf);
+    table->delete_record(RID(0, 2)); // id 2
 
-    record_buf.set({"test_record_2", 2});
-    table->insert_record(record_buf);
-
-    record_buf.set({"test_record_3", 3});
-    auto r3 = table->insert_record(record_buf);
-
-    record_buf.set({"test_record_4", 4});
-    table->insert_record(record_buf);
-
-    table->delete_record(r3);
-
-    record_buf.set({"test_record_5", 5});
-    table->insert_record(record_buf);
-
-    table->delete_record(r1);
-
-    record_buf.set({"test_record_6", 6});
-    table->insert_record(record_buf);
+    table->delete_record(RID(1, 2)); // id 38
 
     auto table_iter = table->get_record_iter();
 

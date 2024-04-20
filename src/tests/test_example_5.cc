@@ -1,4 +1,4 @@
-// Test small insertion over a deletion in first page
+// Test vacuum and larger insertion at the end of first and second page
 #include <iostream>
 
 #include "relational_model/record.h"
@@ -32,8 +32,16 @@ int main() {
 
     Record record_buf({DataType::STR, DataType::INT});
 
-    record_buf.set({"foo", 100});
+    table->vacuum();
+
+    // can be added at the end of the first page
+    record_buf.set({"..........................................................................................................", 200});
     table->insert_record(record_buf);
+
+    // has to be added on the second page and must be at the end
+    record_buf.set({"..........................................................................................................", 300});
+    table->insert_record(record_buf);
+
 
     auto table_iter = table->get_record_iter();
 
