@@ -176,6 +176,7 @@ IsamNonClustered::IsamNonClustered(
     *first_leaf.prev = -1;
     *first_leaf.next = 1;
     *first_leaf.overflow = -1;
+    first_leaf.page.make_dirty();
 
     for (int64_t i = 1; i < total_leafs_pointers - 1; i++) {
         IsamNonClusteredLeaf leaf(*this, i);
@@ -183,6 +184,7 @@ IsamNonClustered::IsamNonClustered(
         *leaf.prev = i-1;
         *leaf.next = i+1;
         *leaf.overflow = -1;
+        leaf.page.make_dirty();
     }
 
     IsamNonClusteredLeaf last_leaf(*this, total_leafs_pointers - 1);
@@ -190,6 +192,7 @@ IsamNonClustered::IsamNonClustered(
     *last_leaf.prev = total_leafs_pointers - 2;
     *last_leaf.next = -1;
     *last_leaf.overflow = -1;
+    last_leaf.page.make_dirty();
 
     // iterate over all records again and insert
     iter->reset();
