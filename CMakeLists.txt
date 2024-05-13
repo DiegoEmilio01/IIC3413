@@ -58,7 +58,14 @@ set(BUILD_TARGETS
 )
 
 set(TEST_TARGETS
-    test_t2
+    test_insert
+    test_delete_search
+    test_delete
+    test_overflow_search
+    test_overflow
+    test_overload_search
+    test_overload
+    test_search
 )
 
 # Build targets

@@ -61,10 +61,54 @@ IsamNonClusteredLeaf::~IsamNonClusteredLeaf() {
 
 
 void IsamNonClusteredLeaf::insert_record(RID rid, int64_t key) {
-    // TODO: implement
+    if (*N < max_keys) {
+        records[*N] = RecordInfo(key, rid);
+        *N += 1;
+        page.make_dirty();
+    } else {
+        if (*overflow == -1) {
+            IsamNonClusteredLeaf overflow_page(isam);
+            *overflow = overflow_page.page.page_id.page_number;
+            page.make_dirty();
+            overflow_page.insert_record(rid, key);
+        } else {
+            IsamNonClusteredLeaf overflow_page(isam, *overflow);
+            overflow_page.insert_record(rid, key);
+        }
+    }
 }
 
 
-void IsamNonClusteredLeaf::delete_record(RID rid) {
-    // TODO: implement
+void IsamNonClusteredLeaf::IsamNonClusteredLeaf::delete_record(RID rid) {
+    // search in this leaf
+    for (uint_fast32_t i = 0; i < *N; i++) {
+        if (records[i].rid == rid) {
+            // shift left
+            for (uint_fast32_t j = i; j < (*N) - 1; j++) {
+                records[j] = records[j+1];
+            }
+            *N -= 1;
+            page.make_dirty();
+            return;
+        }
+    }
+
+    int32_t next_overflow = *overflow;
+    while (next_overflow != -1) {
+        IsamNonClusteredLeaf overflow_page(isam, next_overflow);
+
+        // search in this leaf
+        for (uint_fast32_t i = 0; i < *overflow_page.N; i++) {
+            if (overflow_page.records[i].rid == rid) {
+                // shift left
+                for (uint_fast32_t j = i; j < (*overflow_page.N) - 1; j++) {
+                    overflow_page.records[j] = overflow_page.records[j+1];
+                }
+                *overflow_page.N -= 1;
+                overflow_page.page.make_dirty();
+                return;
+            }
+        }
+        next_overflow = *overflow_page.overflow;
+    }
 }
