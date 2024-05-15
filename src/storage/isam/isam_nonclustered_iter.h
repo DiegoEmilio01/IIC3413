@@ -51,5 +51,11 @@ private:
 
     Record* out;
 
-    // TODO: you may add additional attributes
+    uint_fast32_t current_leaf_pos;
+
+    bool in_overflow;
+
+    bool is_overflow_end;
+
+    uint_fast32_t saved_next_leaf;
 };

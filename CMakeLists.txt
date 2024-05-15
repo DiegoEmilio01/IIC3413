@@ -36,7 +36,7 @@ endif(APPLE)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 # Define sources
-file(GLOB_RECURSE SRCS src/*.cc)
+file(GLOB_RECURSE SRCS src/*.cc src/*.cpp)
 file(GLOB_RECURSE BIN_SRCS src/bin/*.cc)
 file(GLOB_RECURSE TEST_SRCS src/tests/*.cc)
 
@@ -54,11 +54,11 @@ add_library(iic3413db STATIC ${SRCS})
 target_compile_definitions(iic3413db PUBLIC SERD_STATIC)
 
 set(BUILD_TARGETS
-    bin_example
+    execute_query
 )
 
 set(TEST_TARGETS
-    test_t2
+    create_db
 )
 
 # Build targets

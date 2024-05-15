@@ -2,3 +2,4 @@ data/
 build
 
 third_party/boost_1_81
+.antlr

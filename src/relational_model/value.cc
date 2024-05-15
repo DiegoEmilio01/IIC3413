@@ -23,6 +23,26 @@ Value::Value(const Value& other) :
     }
 }
 
+void Value::operator=(const Value& other) {
+    this->datatype = other.datatype;
+    this->value    = other.value;
+
+    if (datatype == DataType::STR) {
+        value.as_str = new char[Record::MAX_STRLEN+1];
+        std::memcpy(value.as_str, other.value.as_str, Record::MAX_STRLEN+1);
+    }
+}
+
+
+void Value::operator=(Value&& other) {
+    this->datatype = other.datatype;
+    this->value    = other.value;
+    if (datatype == DataType::STR) {
+        // change datatype to avoid deleting value.as_str when other is destroyed
+        other.datatype = DataType::INT;
+    }
+}
+
 
 Value::Value(int64_t i) :
     datatype(DataType::INT), value(i) { }
@@ -71,6 +91,8 @@ bool Value::operator<(const Value& other) const {
             return std::strcmp(value.as_str, other.value.as_str) < 0;
         }
     }
+    assert(false);
+    return false; // unreachable
 }
 
 
@@ -86,4 +108,6 @@ bool Value::operator==(const Value& other) const {
             return std::strcmp(value.as_str, other.value.as_str) == 0;
         }
     }
+    assert(false);
+    return false; // unreachable
 }

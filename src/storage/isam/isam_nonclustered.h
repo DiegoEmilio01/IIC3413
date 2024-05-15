@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "relational_model/index.h"
-#include "relational_model/relation_iter.h"
 #include "storage/heap_file/heap_file.h"
 
 class IsamNonClusteredDir;

@@ -23,19 +23,32 @@ public:
         char separator[2] = {'\0', '\0'};
         for (unsigned i = 0; i < o.values.size(); i++) {
             os << separator;
-            switch (o.values[i].datatype) {
-            case DataType::INT: {
-                os << o.values[i].value.as_int;
-                break;
-            }
-            case DataType::STR:
-                os << '"' << o.values[i].value.as_str << '"';
-                break;
-            }
+            os << o.values[i];
             separator[0] = ',';
         }
         return os;
     }
 
     std::vector<Value> values;
+};
+
+class RecordRef {
+public:
+    RecordRef(uint_fast32_t size) {
+        values.resize(size);
+    }
+
+    RecordRef(const RecordRef& other) = delete;
+
+    friend std::ostream& operator<<(std::ostream& os, const RecordRef& o) {
+        char separator[2] = {'\0', '\0'};
+        for (unsigned i = 0; i < o.values.size(); i++) {
+            os << separator;
+            os << *o.values[i];
+            separator[0] = ',';
+        }
+        return os;
+    }
+
+    std::vector<Value*> values;
 };

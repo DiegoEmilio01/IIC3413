@@ -5,7 +5,6 @@
 #include <random>
 #include <set>
 
-#include "relational_model/relation_iter.h"
 #include "relational_model/system.h"
 #include "storage/heap_file/heap_file.h"
 #include "storage/heap_file/heap_file_page.h"

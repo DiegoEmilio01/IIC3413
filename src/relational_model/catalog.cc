@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 
+#include "exceptions/exceptions.h"
 #include "relational_model/schema.h"
 #include "relational_model/system.h"
 #include "storage/heap_file/heap_file.h"
@@ -10,7 +11,7 @@
 
 using namespace std;
 
-std::string normalize(const std::string& table_name) {
+std::string Catalog::normalize(const std::string& table_name) {
     std::string res = table_name;
     std::transform(res.begin(),
                    res.end(),
@@ -20,23 +21,21 @@ std::string normalize(const std::string& table_name) {
 
     for (char c : res) {
         if (c < 'a' && c > 'z' && c != '_') {
-            throw std::invalid_argument("wrong table name: \""
+            throw QueryException("wrong table name: `"
                 + table_name
-                + "\". only a-z letters and underscore ('_') are allowed.");
+                + "`. Only a-z letters and underscore ('_') are allowed.");
         }
     }
     return res;
 }
 
-uint64_t Catalog::get_table_pos(const std::string& table_name) {
+uint64_t Catalog::get_table_pos(const std::string& table_name) const {
     std::string normalized_table_name = normalize(table_name);
     auto found = table_name_idx.find(normalized_table_name);
     if (found != table_name_idx.end()) {
         return found->second;
     } else {
-        throw std::invalid_argument("table: \""
-                + table_name
-                + "\" does not exists.");
+        throw QueryException("table: `" + table_name + "` does not exist.");
     }
 }
 
@@ -192,18 +191,15 @@ HeapFile* Catalog::create_table(const std::string& table_name, const Schema& sch
     auto found = table_name_idx.find(normalized_table_name);
 
     if (found != table_name_idx.end()) {
-        throw std::invalid_argument("table: \""
-                + table_name
-                + "\" already exists.");
+        throw QueryException("table: `" + table_name + "` already exists.");
     }
 
-    table_name_idx.insert({table_name, tables.size()});
+    table_name_idx.insert({normalized_table_name, tables.size()});
 
     auto heap_file = std::make_unique<HeapFile>(schema, normalized_table_name);
-    table_name_idx.insert({table_name, tables.size()});
 
     tables.emplace_back(
-        table_name,
+        normalized_table_name,
         std::make_unique<Schema>(schema),
         std::move(heap_file),
         nullptr
@@ -272,9 +268,7 @@ void Catalog::create_non_clustered_isam(const std::string& table_name, int key_c
     auto table_pos = get_table_pos(table_name);
 
     if (tables[table_pos].index != nullptr) {
-        throw std::invalid_argument("table: \""
-                + table_name
-                + "\" already has an index.");
+        throw QueryException("table: `" + table_name + "` already has an index.");
     }
 
     tables[table_pos].index = std::make_unique<IsamNonClustered>(
@@ -292,4 +286,38 @@ Index* Catalog::get_index(const std::string& table_name) {
 
 Record& Catalog::get_record_buf(const std::string& table_name) {
     return *tables[get_table_pos(table_name)].record_buf;
+}
+
+
+bool Catalog::table_exists(const std::string& table_name) const {
+    std::string normalized_table_name = normalize(table_name);
+    auto found = table_name_idx.find(normalized_table_name);
+    return found != table_name_idx.end();
+}
+
+
+DataType Catalog::get_datatype(const std::string& table_name,
+                               const std::string& col_name) const
+{
+    std::string normalized_table_name = normalize(table_name);
+    auto found = table_name_idx.find(normalized_table_name);
+    if (found == table_name_idx.end())
+        throw QueryException("Table `" + table_name + "` does not exist");
+
+    const auto& schema = tables[found->second].schema;
+
+    for (size_t i = 0; i < schema->column_names.size(); i++) {
+        if (schema->column_names[i] == col_name) {
+            return schema->datatypes[i];
+        }
+    }
+
+    throw QueryException("Column `" + col_name + "` does not exist in table `"
+                         + table_name + "`");
+}
+
+
+const TableInfo& Catalog::get_table_info(const std::string& table_name) const {
+    std::string normalized_table_name = normalize(table_name);
+    return tables[get_table_pos(table_name)];
 }

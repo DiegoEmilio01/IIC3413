@@ -5,8 +5,20 @@
             "name": "Test Example",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Debug/tests/test_t2",
+            "program": "${workspaceFolder}/build/Debug/tests/test_t3",
             "args": [
+            ],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Debug Build"
+        },
+        {
+            "name": "Query",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/bin/execute_query",
+            "args": [
+                "data/test_example",
+                "data/queries/1.sql"
             ],
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "Debug Build"

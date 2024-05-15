@@ -1,5 +1,8 @@
 # IIC3413-DB
 
+## Important:
+see [Lab 3 testing](#lab-3-testing).
+
 ## Project Build
 
 Install Dependencies:
@@ -61,17 +64,23 @@ To use multiple cores during compilation (much faster) add `-j n` at the end of 
 ```bash
 cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug && cmake --build build/Debug/ -j 8
 ```
-Test the Project:
---------------------------------------------------------------------------------
-To execute a test after building the project, it can be run by the command:
+
+## Lab 3 testing:
+
+To create an example database:
 ```bash
-./build/Debug/tests/test_example_1
+./build/Debug/tests/create_db
 ```
-To create a file containing the output you can run:
+that will create the database folder `data/test_example`.
+
+You can change the schema or add more tables modifying the file `src/tests/create_db.cc`
+
+Then you can query the database with `execute_query`, passing as first parameter an existing database, and as a second parameter the path to a file with the query:
 ```bash
-./build/Debug/tests/test_example_1 >> output.out
+./build/Debug/bin/execute_query data/test_example data/queries/1.sql
 ```
-To compare outputs you can run:
+
+You can print the logical and physical plan if you add the parameter `--explain` at the end:
 ```bash
-diff ./src/tests/outputs/test_example_1.out output.out
+./build/Debug/bin/execute_query data/test_example data/queries/1.sql --explain
 ```

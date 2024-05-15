@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+#include <cassert>
 #include <string>
 #include <vector>
 
@@ -17,7 +19,10 @@ public:
     Schema(std::vector<std::string>&& column_names,
            std::vector<DataType>&&    datatypes) :
         column_names (std::move(column_names)),
-        datatypes    (std::move(datatypes)) { }
+        datatypes    (std::move(datatypes))
+    {
+        assert(column_names.size() == datatypes.size());
+    }
 
     Schema() {}
 

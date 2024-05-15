@@ -3,7 +3,6 @@
 #include <cstddef>
 
 class Record;
-class Schema;
 
 class RecordSerializer {
 public:

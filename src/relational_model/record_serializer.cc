@@ -21,6 +21,7 @@ uint64_t read_int64(const char* ptr) {
     return res;
 }
 
+
 void write_int64(int64_t i, char* out) {
     char* i_ptr = reinterpret_cast<char*>(&i);
 

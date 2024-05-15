@@ -41,11 +41,15 @@ public:
 
     ~Catalog();
 
-    // may return nullptr if table does not exists
+    // may return nullptr if table does not exist
     // sets the schema when the table is found
     HeapFile* get_table(const std::string& table_name, Schema* schema);
 
     HeapFile* create_table(const std::string& table_name, const Schema&);
+
+    bool table_exists(const std::string& table_name) const;
+
+    DataType get_datatype(const std::string& table_name, const std::string& col_name) const;
 
     void insert_record(const std::string& table_name, const Record& record);
 
@@ -57,9 +61,14 @@ public:
 
     void create_non_clustered_isam(const std::string& table_name, int key_col_idx);
 
+    // returns nullptr if there is no index
     Index* get_index(const std::string& table_name);
 
     Record& get_record_buf(const std::string& table_name);
+
+    const TableInfo& get_table_info(const std::string& table_name) const;
+
+    static std::string normalize(const std::string& table_name);
 
 private:
     std::map<std::string, uint64_t> table_name_idx;
@@ -72,7 +81,7 @@ private:
 
     std::string read_string();
 
-    uint64_t get_table_pos(const std::string& table_name);
+    uint64_t get_table_pos(const std::string& table_name) const;
 
     void write_uint64(const uint64_t);
 

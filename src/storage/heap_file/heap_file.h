@@ -9,7 +9,6 @@
 #include "storage/heap_file/heap_file_iter.h"
 #include "storage/heap_file/rid.h"
 
-class RelationIter;
 class Schema;
 
 class HeapFile {

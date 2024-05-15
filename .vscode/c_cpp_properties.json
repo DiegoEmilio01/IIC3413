@@ -8,6 +8,7 @@
             "intelliSenseMode": "gcc-x64",
             "includePath": [
                 "${workspaceFolder}/src/",
+                "${workspaceFolder}/third_party/antlr4-runtime-4.13.1/src",
                 "/usr/include/"
             ],
             "defines": [],
