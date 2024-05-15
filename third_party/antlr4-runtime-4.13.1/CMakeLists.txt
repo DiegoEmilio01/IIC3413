@@ -13,12 +13,6 @@ endif()
 
 message(STATUS "Building ANTLR4-CPP-RUNTIME in ${CMAKE_BUILD_TYPE} mode")
 
-if (CMAKE_BUILD_TYPE STREQUAL "RELEASE")
-    include(CheckIPOSupported)
-    check_ipo_supported(RESULT supported OUTPUT error)
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-endif (CMAKE_BUILD_TYPE STREQUAL "RELEASE")
-
 set(ANTLR4_CPP_RUNTIME antlr4_cpp_runtime CACHE INTERNAL "")
 file(GLOB_RECURSE ANTLR4_SRCS src/*.cpp)
 set(ANTLR4_CPP_RUNTIME_SRC ${ANTLR4_SRCS})

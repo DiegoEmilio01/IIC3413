@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Set project name and version
-project(IIC3413DB VERSION 0.2.0)
+project(IIC3413DB VERSION 0.3.0)
 
 # Specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -9,6 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Enable export of compile commands output
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION False)
 
 # Set output directories
 set(EXECUTABLE_OUTPUT_PATH bin)
@@ -22,7 +24,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g0")
 
 # When compiling with Clang generate debug info specifically for lldb
 if(CMAKE_CXX_COMPILER_ID STREQUAL Clang)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -glldb -fstandalone-debug")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -glldb -fstandalone-debug")
 endif()
 
 if(APPLE)
@@ -51,7 +53,6 @@ include_directories(${CMAKE_SOURCE_DIR}/third_party/boost_1_81/include)
 
 # Define targets
 add_library(iic3413db STATIC ${SRCS})
-target_compile_definitions(iic3413db PUBLIC SERD_STATIC)
 
 set(BUILD_TARGETS
     execute_query
