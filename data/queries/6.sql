@@ -1,0 +1,4 @@
+-- Between example
+SELECT *
+FROM T2
+WHERE c BETWEEN 6 AND 12
