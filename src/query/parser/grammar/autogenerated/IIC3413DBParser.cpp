@@ -55,75 +55,78 @@ void iic3413dbparserParserInitialize() {
       "root", "query", "createQuery", "insertQuery", "selectQuery", "schema", 
       "datatype", "selectStatement", "columnList", "fromStatement", "tableList", 
       "table", "whereStatement", "andExpr", "simpleExpr", "comparisonExpr", 
-      "likeExpr", "columnOrConstant", "column", "constant", "identifier", 
-      "limitStatement", "keyword"
+      "likeExpr", "betweenExpr", "columnOrConstant", "column", "constant", 
+      "identifier", "limitStatement", "keyword"
     },
     std::vector<std::string>{
       "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
-      "'=='", "'!='", "'>'", "'<'", "'>='", "'<='", "','", "'*'", "'-'", 
+      "", "'=='", "'!='", "'>'", "'<'", "'>='", "'<='", "','", "'*'", "'-'", 
       "'/'", "'+'", "'.'", "'('", "')'"
     },
     std::vector<std::string>{
-      "", "AND", "AS", "CREATE", "DISTINCT", "FROM", "INSERT", "INTO", "INT", 
-      "LIKE", "LIMIT", "OR", "SELECT", "STR", "TABLE", "VALUES", "WHERE", 
-      "EQ", "NE", "GT", "LT", "GE", "LE", "COMMA", "ASTERISK", "MINUS", 
-      "SLASH", "PLUS", "DOT", "L_PAR", "R_PAR", "INTEGER", "STRING", "IDENTIFIER", 
-      "WHITE_SPACE", "COMMENT_INPUT", "LINE_COMMENT", "UNRECOGNIZED"
+      "", "AND", "AS", "BETWEEN", "CREATE", "DISTINCT", "FROM", "INSERT", 
+      "INTO", "INT", "LIKE", "LIMIT", "OR", "SELECT", "STR", "TABLE", "VALUES", 
+      "WHERE", "EQ", "NE", "GT", "LT", "GE", "LE", "COMMA", "ASTERISK", 
+      "MINUS", "SLASH", "PLUS", "DOT", "L_PAR", "R_PAR", "INTEGER", "STRING", 
+      "IDENTIFIER", "WHITE_SPACE", "COMMENT_INPUT", "LINE_COMMENT", "UNRECOGNIZED"
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,37,173,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,38,182,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,
   	14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,
-  	21,2,22,7,22,1,0,1,0,1,0,1,1,1,1,1,1,3,1,53,8,1,1,2,1,2,1,2,1,2,1,2,1,
-  	2,1,2,5,2,62,8,2,10,2,12,2,65,9,2,1,2,1,2,1,3,1,3,1,3,1,3,1,3,1,3,1,3,
-  	1,3,5,3,77,8,3,10,3,12,3,80,9,3,1,3,1,3,1,4,1,4,1,4,3,4,87,8,4,1,4,3,
-  	4,90,8,4,1,5,1,5,1,5,1,6,1,6,1,7,1,7,3,7,99,8,7,1,7,1,7,3,7,103,8,7,1,
-  	8,1,8,1,8,5,8,108,8,8,10,8,12,8,111,9,8,1,9,1,9,1,9,1,10,1,10,1,10,5,
-  	10,119,8,10,10,10,12,10,122,9,10,1,11,1,11,1,11,3,11,127,8,11,1,12,1,
-  	12,1,12,1,13,1,13,1,13,5,13,135,8,13,10,13,12,13,138,9,13,1,14,1,14,3,
-  	14,142,8,14,1,15,1,15,1,15,3,15,147,8,15,1,16,1,16,1,16,1,16,1,17,1,17,
-  	3,17,155,8,17,1,18,1,18,1,18,3,18,160,8,18,1,19,1,19,1,20,1,20,3,20,166,
-  	8,20,1,21,1,21,1,21,1,22,1,22,1,22,0,0,23,0,2,4,6,8,10,12,14,16,18,20,
-  	22,24,26,28,30,32,34,36,38,40,42,44,0,4,2,0,8,8,13,13,1,0,17,22,1,0,31,
-  	32,1,0,1,16,166,0,46,1,0,0,0,2,52,1,0,0,0,4,54,1,0,0,0,6,68,1,0,0,0,8,
-  	83,1,0,0,0,10,91,1,0,0,0,12,94,1,0,0,0,14,96,1,0,0,0,16,104,1,0,0,0,18,
-  	112,1,0,0,0,20,115,1,0,0,0,22,123,1,0,0,0,24,128,1,0,0,0,26,131,1,0,0,
-  	0,28,141,1,0,0,0,30,143,1,0,0,0,32,148,1,0,0,0,34,154,1,0,0,0,36,156,
-  	1,0,0,0,38,161,1,0,0,0,40,165,1,0,0,0,42,167,1,0,0,0,44,170,1,0,0,0,46,
-  	47,3,2,1,0,47,48,5,0,0,1,48,1,1,0,0,0,49,53,3,4,2,0,50,53,3,6,3,0,51,
-  	53,3,8,4,0,52,49,1,0,0,0,52,50,1,0,0,0,52,51,1,0,0,0,53,3,1,0,0,0,54,
-  	55,5,3,0,0,55,56,5,14,0,0,56,57,3,40,20,0,57,58,5,29,0,0,58,63,3,10,5,
-  	0,59,60,5,23,0,0,60,62,3,10,5,0,61,59,1,0,0,0,62,65,1,0,0,0,63,61,1,0,
-  	0,0,63,64,1,0,0,0,64,66,1,0,0,0,65,63,1,0,0,0,66,67,5,30,0,0,67,5,1,0,
-  	0,0,68,69,5,6,0,0,69,70,5,7,0,0,70,71,3,40,20,0,71,72,5,15,0,0,72,73,
-  	5,29,0,0,73,78,3,38,19,0,74,75,5,23,0,0,75,77,3,38,19,0,76,74,1,0,0,0,
-  	77,80,1,0,0,0,78,76,1,0,0,0,78,79,1,0,0,0,79,81,1,0,0,0,80,78,1,0,0,0,
-  	81,82,5,30,0,0,82,7,1,0,0,0,83,84,3,14,7,0,84,86,3,18,9,0,85,87,3,24,
-  	12,0,86,85,1,0,0,0,86,87,1,0,0,0,87,89,1,0,0,0,88,90,3,42,21,0,89,88,
-  	1,0,0,0,89,90,1,0,0,0,90,9,1,0,0,0,91,92,3,40,20,0,92,93,3,12,6,0,93,
-  	11,1,0,0,0,94,95,7,0,0,0,95,13,1,0,0,0,96,98,5,12,0,0,97,99,5,4,0,0,98,
-  	97,1,0,0,0,98,99,1,0,0,0,99,102,1,0,0,0,100,103,5,24,0,0,101,103,3,16,
-  	8,0,102,100,1,0,0,0,102,101,1,0,0,0,103,15,1,0,0,0,104,109,3,36,18,0,
-  	105,106,5,23,0,0,106,108,3,36,18,0,107,105,1,0,0,0,108,111,1,0,0,0,109,
-  	107,1,0,0,0,109,110,1,0,0,0,110,17,1,0,0,0,111,109,1,0,0,0,112,113,5,
-  	5,0,0,113,114,3,20,10,0,114,19,1,0,0,0,115,120,3,22,11,0,116,117,5,23,
-  	0,0,117,119,3,22,11,0,118,116,1,0,0,0,119,122,1,0,0,0,120,118,1,0,0,0,
-  	120,121,1,0,0,0,121,21,1,0,0,0,122,120,1,0,0,0,123,126,3,40,20,0,124,
-  	125,5,2,0,0,125,127,3,40,20,0,126,124,1,0,0,0,126,127,1,0,0,0,127,23,
-  	1,0,0,0,128,129,5,16,0,0,129,130,3,26,13,0,130,25,1,0,0,0,131,136,3,28,
-  	14,0,132,133,5,1,0,0,133,135,3,28,14,0,134,132,1,0,0,0,135,138,1,0,0,
-  	0,136,134,1,0,0,0,136,137,1,0,0,0,137,27,1,0,0,0,138,136,1,0,0,0,139,
-  	142,3,30,15,0,140,142,3,32,16,0,141,139,1,0,0,0,141,140,1,0,0,0,142,29,
-  	1,0,0,0,143,146,3,34,17,0,144,145,7,1,0,0,145,147,3,34,17,0,146,144,1,
-  	0,0,0,146,147,1,0,0,0,147,31,1,0,0,0,148,149,3,36,18,0,149,150,5,9,0,
-  	0,150,151,5,32,0,0,151,33,1,0,0,0,152,155,3,36,18,0,153,155,3,38,19,0,
-  	154,152,1,0,0,0,154,153,1,0,0,0,155,35,1,0,0,0,156,159,3,40,20,0,157,
-  	158,5,28,0,0,158,160,3,40,20,0,159,157,1,0,0,0,159,160,1,0,0,0,160,37,
-  	1,0,0,0,161,162,7,2,0,0,162,39,1,0,0,0,163,166,5,33,0,0,164,166,3,44,
-  	22,0,165,163,1,0,0,0,165,164,1,0,0,0,166,41,1,0,0,0,167,168,5,10,0,0,
-  	168,169,5,31,0,0,169,43,1,0,0,0,170,171,7,3,0,0,171,45,1,0,0,0,16,52,
-  	63,78,86,89,98,102,109,120,126,136,141,146,154,159,165
+  	21,2,22,7,22,2,23,7,23,1,0,1,0,1,0,1,1,1,1,1,1,3,1,55,8,1,1,2,1,2,1,2,
+  	1,2,1,2,1,2,1,2,5,2,64,8,2,10,2,12,2,67,9,2,1,2,1,2,1,3,1,3,1,3,1,3,1,
+  	3,1,3,1,3,1,3,5,3,79,8,3,10,3,12,3,82,9,3,1,3,1,3,1,4,1,4,1,4,3,4,89,
+  	8,4,1,4,3,4,92,8,4,1,5,1,5,1,5,1,6,1,6,1,7,1,7,3,7,101,8,7,1,7,1,7,3,
+  	7,105,8,7,1,8,1,8,1,8,5,8,110,8,8,10,8,12,8,113,9,8,1,9,1,9,1,9,1,10,
+  	1,10,1,10,5,10,121,8,10,10,10,12,10,124,9,10,1,11,1,11,1,11,3,11,129,
+  	8,11,1,12,1,12,1,12,1,13,1,13,1,13,5,13,137,8,13,10,13,12,13,140,9,13,
+  	1,14,1,14,1,14,3,14,145,8,14,1,15,1,15,1,15,3,15,150,8,15,1,16,1,16,1,
+  	16,1,16,1,17,1,17,1,17,1,17,1,17,1,17,1,18,1,18,3,18,164,8,18,1,19,1,
+  	19,1,19,3,19,169,8,19,1,20,1,20,1,21,1,21,3,21,175,8,21,1,22,1,22,1,22,
+  	1,23,1,23,1,23,0,0,24,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,
+  	36,38,40,42,44,46,0,4,2,0,9,9,14,14,1,0,18,23,1,0,32,33,1,0,1,17,175,
+  	0,48,1,0,0,0,2,54,1,0,0,0,4,56,1,0,0,0,6,70,1,0,0,0,8,85,1,0,0,0,10,93,
+  	1,0,0,0,12,96,1,0,0,0,14,98,1,0,0,0,16,106,1,0,0,0,18,114,1,0,0,0,20,
+  	117,1,0,0,0,22,125,1,0,0,0,24,130,1,0,0,0,26,133,1,0,0,0,28,144,1,0,0,
+  	0,30,146,1,0,0,0,32,151,1,0,0,0,34,155,1,0,0,0,36,163,1,0,0,0,38,165,
+  	1,0,0,0,40,170,1,0,0,0,42,174,1,0,0,0,44,176,1,0,0,0,46,179,1,0,0,0,48,
+  	49,3,2,1,0,49,50,5,0,0,1,50,1,1,0,0,0,51,55,3,4,2,0,52,55,3,6,3,0,53,
+  	55,3,8,4,0,54,51,1,0,0,0,54,52,1,0,0,0,54,53,1,0,0,0,55,3,1,0,0,0,56,
+  	57,5,4,0,0,57,58,5,15,0,0,58,59,3,42,21,0,59,60,5,30,0,0,60,65,3,10,5,
+  	0,61,62,5,24,0,0,62,64,3,10,5,0,63,61,1,0,0,0,64,67,1,0,0,0,65,63,1,0,
+  	0,0,65,66,1,0,0,0,66,68,1,0,0,0,67,65,1,0,0,0,68,69,5,31,0,0,69,5,1,0,
+  	0,0,70,71,5,7,0,0,71,72,5,8,0,0,72,73,3,42,21,0,73,74,5,16,0,0,74,75,
+  	5,30,0,0,75,80,3,40,20,0,76,77,5,24,0,0,77,79,3,40,20,0,78,76,1,0,0,0,
+  	79,82,1,0,0,0,80,78,1,0,0,0,80,81,1,0,0,0,81,83,1,0,0,0,82,80,1,0,0,0,
+  	83,84,5,31,0,0,84,7,1,0,0,0,85,86,3,14,7,0,86,88,3,18,9,0,87,89,3,24,
+  	12,0,88,87,1,0,0,0,88,89,1,0,0,0,89,91,1,0,0,0,90,92,3,44,22,0,91,90,
+  	1,0,0,0,91,92,1,0,0,0,92,9,1,0,0,0,93,94,3,42,21,0,94,95,3,12,6,0,95,
+  	11,1,0,0,0,96,97,7,0,0,0,97,13,1,0,0,0,98,100,5,13,0,0,99,101,5,5,0,0,
+  	100,99,1,0,0,0,100,101,1,0,0,0,101,104,1,0,0,0,102,105,5,25,0,0,103,105,
+  	3,16,8,0,104,102,1,0,0,0,104,103,1,0,0,0,105,15,1,0,0,0,106,111,3,38,
+  	19,0,107,108,5,24,0,0,108,110,3,38,19,0,109,107,1,0,0,0,110,113,1,0,0,
+  	0,111,109,1,0,0,0,111,112,1,0,0,0,112,17,1,0,0,0,113,111,1,0,0,0,114,
+  	115,5,6,0,0,115,116,3,20,10,0,116,19,1,0,0,0,117,122,3,22,11,0,118,119,
+  	5,24,0,0,119,121,3,22,11,0,120,118,1,0,0,0,121,124,1,0,0,0,122,120,1,
+  	0,0,0,122,123,1,0,0,0,123,21,1,0,0,0,124,122,1,0,0,0,125,128,3,42,21,
+  	0,126,127,5,2,0,0,127,129,3,42,21,0,128,126,1,0,0,0,128,129,1,0,0,0,129,
+  	23,1,0,0,0,130,131,5,17,0,0,131,132,3,26,13,0,132,25,1,0,0,0,133,138,
+  	3,28,14,0,134,135,5,1,0,0,135,137,3,28,14,0,136,134,1,0,0,0,137,140,1,
+  	0,0,0,138,136,1,0,0,0,138,139,1,0,0,0,139,27,1,0,0,0,140,138,1,0,0,0,
+  	141,145,3,30,15,0,142,145,3,32,16,0,143,145,3,34,17,0,144,141,1,0,0,0,
+  	144,142,1,0,0,0,144,143,1,0,0,0,145,29,1,0,0,0,146,149,3,36,18,0,147,
+  	148,7,1,0,0,148,150,3,36,18,0,149,147,1,0,0,0,149,150,1,0,0,0,150,31,
+  	1,0,0,0,151,152,3,38,19,0,152,153,5,10,0,0,153,154,5,33,0,0,154,33,1,
+  	0,0,0,155,156,3,38,19,0,156,157,5,3,0,0,157,158,3,40,20,0,158,159,5,1,
+  	0,0,159,160,3,40,20,0,160,35,1,0,0,0,161,164,3,38,19,0,162,164,3,40,20,
+  	0,163,161,1,0,0,0,163,162,1,0,0,0,164,37,1,0,0,0,165,168,3,42,21,0,166,
+  	167,5,29,0,0,167,169,3,42,21,0,168,166,1,0,0,0,168,169,1,0,0,0,169,39,
+  	1,0,0,0,170,171,7,2,0,0,171,41,1,0,0,0,172,175,5,34,0,0,173,175,3,46,
+  	23,0,174,172,1,0,0,0,174,173,1,0,0,0,175,43,1,0,0,0,176,177,5,11,0,0,
+  	177,178,5,32,0,0,178,45,1,0,0,0,179,180,7,3,0,0,180,47,1,0,0,0,16,54,
+  	65,80,88,91,100,104,111,122,128,138,144,149,163,168,174
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -212,9 +215,9 @@ IIC3413DBParser::RootContext* IIC3413DBParser::root() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(46);
+    setState(48);
     query();
-    setState(47);
+    setState(49);
     match(IIC3413DBParser::EOF);
    
   }
@@ -270,26 +273,26 @@ IIC3413DBParser::QueryContext* IIC3413DBParser::query() {
     exitRule();
   });
   try {
-    setState(52);
+    setState(54);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case IIC3413DBParser::CREATE: {
         enterOuterAlt(_localctx, 1);
-        setState(49);
+        setState(51);
         createQuery();
         break;
       }
 
       case IIC3413DBParser::INSERT: {
         enterOuterAlt(_localctx, 2);
-        setState(50);
+        setState(52);
         insertQuery();
         break;
       }
 
       case IIC3413DBParser::SELECT: {
         enterOuterAlt(_localctx, 3);
-        setState(51);
+        setState(53);
         selectQuery();
         break;
       }
@@ -377,29 +380,29 @@ IIC3413DBParser::CreateQueryContext* IIC3413DBParser::createQuery() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(54);
-    match(IIC3413DBParser::CREATE);
-    setState(55);
-    match(IIC3413DBParser::TABLE);
     setState(56);
-    identifier();
+    match(IIC3413DBParser::CREATE);
     setState(57);
-    match(IIC3413DBParser::L_PAR);
+    match(IIC3413DBParser::TABLE);
     setState(58);
+    identifier();
+    setState(59);
+    match(IIC3413DBParser::L_PAR);
+    setState(60);
     schema();
-    setState(63);
+    setState(65);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == IIC3413DBParser::COMMA) {
-      setState(59);
+      setState(61);
       match(IIC3413DBParser::COMMA);
-      setState(60);
+      setState(62);
       schema();
-      setState(65);
+      setState(67);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
-    setState(66);
+    setState(68);
     match(IIC3413DBParser::R_PAR);
    
   }
@@ -485,31 +488,31 @@ IIC3413DBParser::InsertQueryContext* IIC3413DBParser::insertQuery() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(68);
-    match(IIC3413DBParser::INSERT);
-    setState(69);
-    match(IIC3413DBParser::INTO);
     setState(70);
-    identifier();
+    match(IIC3413DBParser::INSERT);
     setState(71);
-    match(IIC3413DBParser::VALUES);
+    match(IIC3413DBParser::INTO);
     setState(72);
-    match(IIC3413DBParser::L_PAR);
+    identifier();
     setState(73);
+    match(IIC3413DBParser::VALUES);
+    setState(74);
+    match(IIC3413DBParser::L_PAR);
+    setState(75);
     constant();
-    setState(78);
+    setState(80);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == IIC3413DBParser::COMMA) {
-      setState(74);
+      setState(76);
       match(IIC3413DBParser::COMMA);
-      setState(75);
+      setState(77);
       constant();
-      setState(80);
+      setState(82);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
-    setState(81);
+    setState(83);
     match(IIC3413DBParser::R_PAR);
    
   }
@@ -571,24 +574,24 @@ IIC3413DBParser::SelectQueryContext* IIC3413DBParser::selectQuery() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(83);
+    setState(85);
     selectStatement();
-    setState(84);
-    fromStatement();
     setState(86);
+    fromStatement();
+    setState(88);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == IIC3413DBParser::WHERE) {
-      setState(85);
+      setState(87);
       whereStatement();
     }
-    setState(89);
+    setState(91);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == IIC3413DBParser::LIMIT) {
-      setState(88);
+      setState(90);
       limitStatement();
     }
    
@@ -642,9 +645,9 @@ IIC3413DBParser::SchemaContext* IIC3413DBParser::schema() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(91);
+    setState(93);
     identifier();
-    setState(92);
+    setState(94);
     datatype();
    
   }
@@ -698,7 +701,7 @@ IIC3413DBParser::DatatypeContext* IIC3413DBParser::datatype() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(94);
+    setState(96);
     _la = _input->LA(1);
     if (!(_la == IIC3413DBParser::INT
 
@@ -768,14 +771,14 @@ IIC3413DBParser::SelectStatementContext* IIC3413DBParser::selectStatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(96);
-    match(IIC3413DBParser::SELECT);
     setState(98);
+    match(IIC3413DBParser::SELECT);
+    setState(100);
     _errHandler->sync(this);
 
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx)) {
     case 1: {
-      setState(97);
+      setState(99);
       match(IIC3413DBParser::DISTINCT);
       break;
     }
@@ -783,17 +786,18 @@ IIC3413DBParser::SelectStatementContext* IIC3413DBParser::selectStatement() {
     default:
       break;
     }
-    setState(102);
+    setState(104);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case IIC3413DBParser::ASTERISK: {
-        setState(100);
+        setState(102);
         match(IIC3413DBParser::ASTERISK);
         break;
       }
 
       case IIC3413DBParser::AND:
       case IIC3413DBParser::AS:
+      case IIC3413DBParser::BETWEEN:
       case IIC3413DBParser::CREATE:
       case IIC3413DBParser::DISTINCT:
       case IIC3413DBParser::FROM:
@@ -809,7 +813,7 @@ IIC3413DBParser::SelectStatementContext* IIC3413DBParser::selectStatement() {
       case IIC3413DBParser::VALUES:
       case IIC3413DBParser::WHERE:
       case IIC3413DBParser::IDENTIFIER: {
-        setState(101);
+        setState(103);
         columnList();
         break;
       }
@@ -877,17 +881,17 @@ IIC3413DBParser::ColumnListContext* IIC3413DBParser::columnList() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(104);
+    setState(106);
     column();
-    setState(109);
+    setState(111);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == IIC3413DBParser::COMMA) {
-      setState(105);
+      setState(107);
       match(IIC3413DBParser::COMMA);
-      setState(106);
+      setState(108);
       column();
-      setState(111);
+      setState(113);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
@@ -942,9 +946,9 @@ IIC3413DBParser::FromStatementContext* IIC3413DBParser::fromStatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(112);
+    setState(114);
     match(IIC3413DBParser::FROM);
-    setState(113);
+    setState(115);
     tableList();
    
   }
@@ -1006,17 +1010,17 @@ IIC3413DBParser::TableListContext* IIC3413DBParser::tableList() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(115);
+    setState(117);
     table();
-    setState(120);
+    setState(122);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == IIC3413DBParser::COMMA) {
-      setState(116);
+      setState(118);
       match(IIC3413DBParser::COMMA);
-      setState(117);
+      setState(119);
       table();
-      setState(122);
+      setState(124);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
@@ -1076,16 +1080,16 @@ IIC3413DBParser::TableContext* IIC3413DBParser::table() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(123);
+    setState(125);
     identifier();
-    setState(126);
+    setState(128);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == IIC3413DBParser::AS) {
-      setState(124);
+      setState(126);
       match(IIC3413DBParser::AS);
-      setState(125);
+      setState(127);
       identifier();
     }
    
@@ -1139,9 +1143,9 @@ IIC3413DBParser::WhereStatementContext* IIC3413DBParser::whereStatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(128);
+    setState(130);
     match(IIC3413DBParser::WHERE);
-    setState(129);
+    setState(131);
     andExpr();
    
   }
@@ -1203,17 +1207,17 @@ IIC3413DBParser::AndExprContext* IIC3413DBParser::andExpr() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(131);
+    setState(133);
     simpleExpr();
-    setState(136);
+    setState(138);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == IIC3413DBParser::AND) {
-      setState(132);
+      setState(134);
       match(IIC3413DBParser::AND);
-      setState(133);
+      setState(135);
       simpleExpr();
-      setState(138);
+      setState(140);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
@@ -1242,6 +1246,10 @@ IIC3413DBParser::LikeExprContext* IIC3413DBParser::SimpleExprContext::likeExpr()
   return getRuleContext<IIC3413DBParser::LikeExprContext>(0);
 }
 
+IIC3413DBParser::BetweenExprContext* IIC3413DBParser::SimpleExprContext::betweenExpr() {
+  return getRuleContext<IIC3413DBParser::BetweenExprContext>(0);
+}
+
 
 size_t IIC3413DBParser::SimpleExprContext::getRuleIndex() const {
   return IIC3413DBParser::RuleSimpleExpr;
@@ -1267,20 +1275,27 @@ IIC3413DBParser::SimpleExprContext* IIC3413DBParser::simpleExpr() {
     exitRule();
   });
   try {
-    setState(141);
+    setState(144);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 11, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(139);
+      setState(141);
       comparisonExpr();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(140);
+      setState(142);
       likeExpr();
+      break;
+    }
+
+    case 3: {
+      enterOuterAlt(_localctx, 3);
+      setState(143);
+      betweenExpr();
       break;
     }
 
@@ -1363,26 +1378,26 @@ IIC3413DBParser::ComparisonExprContext* IIC3413DBParser::comparisonExpr() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(143);
-    columnOrConstant();
     setState(146);
+    columnOrConstant();
+    setState(149);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 8257536) != 0)) {
-      setState(144);
+      ((1ULL << _la) & 16515072) != 0)) {
+      setState(147);
       antlrcpp::downCast<ComparisonExprContext *>(_localctx)->op = _input->LT(1);
       _la = _input->LA(1);
       if (!((((_la & ~ 0x3fULL) == 0) &&
-        ((1ULL << _la) & 8257536) != 0))) {
+        ((1ULL << _la) & 16515072) != 0))) {
         antlrcpp::downCast<ComparisonExprContext *>(_localctx)->op = _errHandler->recoverInline(this);
       }
       else {
         _errHandler->reportMatch(this);
         consume();
       }
-      setState(145);
+      setState(148);
       columnOrConstant();
     }
    
@@ -1440,12 +1455,85 @@ IIC3413DBParser::LikeExprContext* IIC3413DBParser::likeExpr() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(148);
+    setState(151);
     column();
-    setState(149);
+    setState(152);
     match(IIC3413DBParser::LIKE);
-    setState(150);
+    setState(153);
     match(IIC3413DBParser::STRING);
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- BetweenExprContext ------------------------------------------------------------------
+
+IIC3413DBParser::BetweenExprContext::BetweenExprContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+IIC3413DBParser::ColumnContext* IIC3413DBParser::BetweenExprContext::column() {
+  return getRuleContext<IIC3413DBParser::ColumnContext>(0);
+}
+
+tree::TerminalNode* IIC3413DBParser::BetweenExprContext::BETWEEN() {
+  return getToken(IIC3413DBParser::BETWEEN, 0);
+}
+
+std::vector<IIC3413DBParser::ConstantContext *> IIC3413DBParser::BetweenExprContext::constant() {
+  return getRuleContexts<IIC3413DBParser::ConstantContext>();
+}
+
+IIC3413DBParser::ConstantContext* IIC3413DBParser::BetweenExprContext::constant(size_t i) {
+  return getRuleContext<IIC3413DBParser::ConstantContext>(i);
+}
+
+tree::TerminalNode* IIC3413DBParser::BetweenExprContext::AND() {
+  return getToken(IIC3413DBParser::AND, 0);
+}
+
+
+size_t IIC3413DBParser::BetweenExprContext::getRuleIndex() const {
+  return IIC3413DBParser::RuleBetweenExpr;
+}
+
+
+std::any IIC3413DBParser::BetweenExprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<IIC3413DBParserVisitor*>(visitor))
+    return parserVisitor->visitBetweenExpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+IIC3413DBParser::BetweenExprContext* IIC3413DBParser::betweenExpr() {
+  BetweenExprContext *_localctx = _tracker.createInstance<BetweenExprContext>(_ctx, getState());
+  enterRule(_localctx, 34, IIC3413DBParser::RuleBetweenExpr);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(155);
+    column();
+    setState(156);
+    match(IIC3413DBParser::BETWEEN);
+    setState(157);
+    constant();
+    setState(158);
+    match(IIC3413DBParser::AND);
+    setState(159);
+    constant();
    
   }
   catch (RecognitionException &e) {
@@ -1486,7 +1574,7 @@ std::any IIC3413DBParser::ColumnOrConstantContext::accept(tree::ParseTreeVisitor
 
 IIC3413DBParser::ColumnOrConstantContext* IIC3413DBParser::columnOrConstant() {
   ColumnOrConstantContext *_localctx = _tracker.createInstance<ColumnOrConstantContext>(_ctx, getState());
-  enterRule(_localctx, 34, IIC3413DBParser::RuleColumnOrConstant);
+  enterRule(_localctx, 36, IIC3413DBParser::RuleColumnOrConstant);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1496,11 +1584,12 @@ IIC3413DBParser::ColumnOrConstantContext* IIC3413DBParser::columnOrConstant() {
     exitRule();
   });
   try {
-    setState(154);
+    setState(163);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case IIC3413DBParser::AND:
       case IIC3413DBParser::AS:
+      case IIC3413DBParser::BETWEEN:
       case IIC3413DBParser::CREATE:
       case IIC3413DBParser::DISTINCT:
       case IIC3413DBParser::FROM:
@@ -1517,7 +1606,7 @@ IIC3413DBParser::ColumnOrConstantContext* IIC3413DBParser::columnOrConstant() {
       case IIC3413DBParser::WHERE:
       case IIC3413DBParser::IDENTIFIER: {
         enterOuterAlt(_localctx, 1);
-        setState(152);
+        setState(161);
         column();
         break;
       }
@@ -1525,7 +1614,7 @@ IIC3413DBParser::ColumnOrConstantContext* IIC3413DBParser::columnOrConstant() {
       case IIC3413DBParser::INTEGER:
       case IIC3413DBParser::STRING: {
         enterOuterAlt(_localctx, 2);
-        setState(153);
+        setState(162);
         constant();
         break;
       }
@@ -1577,7 +1666,7 @@ std::any IIC3413DBParser::ColumnContext::accept(tree::ParseTreeVisitor *visitor)
 
 IIC3413DBParser::ColumnContext* IIC3413DBParser::column() {
   ColumnContext *_localctx = _tracker.createInstance<ColumnContext>(_ctx, getState());
-  enterRule(_localctx, 36, IIC3413DBParser::RuleColumn);
+  enterRule(_localctx, 38, IIC3413DBParser::RuleColumn);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1589,16 +1678,16 @@ IIC3413DBParser::ColumnContext* IIC3413DBParser::column() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(156);
+    setState(165);
     identifier();
-    setState(159);
+    setState(168);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == IIC3413DBParser::DOT) {
-      setState(157);
+      setState(166);
       match(IIC3413DBParser::DOT);
-      setState(158);
+      setState(167);
       identifier();
     }
    
@@ -1641,7 +1730,7 @@ std::any IIC3413DBParser::ConstantContext::accept(tree::ParseTreeVisitor *visito
 
 IIC3413DBParser::ConstantContext* IIC3413DBParser::constant() {
   ConstantContext *_localctx = _tracker.createInstance<ConstantContext>(_ctx, getState());
-  enterRule(_localctx, 38, IIC3413DBParser::RuleConstant);
+  enterRule(_localctx, 40, IIC3413DBParser::RuleConstant);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1653,7 +1742,7 @@ IIC3413DBParser::ConstantContext* IIC3413DBParser::constant() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(161);
+    setState(170);
     _la = _input->LA(1);
     if (!(_la == IIC3413DBParser::INTEGER
 
@@ -1704,7 +1793,7 @@ std::any IIC3413DBParser::IdentifierContext::accept(tree::ParseTreeVisitor *visi
 
 IIC3413DBParser::IdentifierContext* IIC3413DBParser::identifier() {
   IdentifierContext *_localctx = _tracker.createInstance<IdentifierContext>(_ctx, getState());
-  enterRule(_localctx, 40, IIC3413DBParser::RuleIdentifier);
+  enterRule(_localctx, 42, IIC3413DBParser::RuleIdentifier);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1714,18 +1803,19 @@ IIC3413DBParser::IdentifierContext* IIC3413DBParser::identifier() {
     exitRule();
   });
   try {
-    setState(165);
+    setState(174);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case IIC3413DBParser::IDENTIFIER: {
         enterOuterAlt(_localctx, 1);
-        setState(163);
+        setState(172);
         match(IIC3413DBParser::IDENTIFIER);
         break;
       }
 
       case IIC3413DBParser::AND:
       case IIC3413DBParser::AS:
+      case IIC3413DBParser::BETWEEN:
       case IIC3413DBParser::CREATE:
       case IIC3413DBParser::DISTINCT:
       case IIC3413DBParser::FROM:
@@ -1741,7 +1831,7 @@ IIC3413DBParser::IdentifierContext* IIC3413DBParser::identifier() {
       case IIC3413DBParser::VALUES:
       case IIC3413DBParser::WHERE: {
         enterOuterAlt(_localctx, 2);
-        setState(164);
+        setState(173);
         keyword();
         break;
       }
@@ -1789,7 +1879,7 @@ std::any IIC3413DBParser::LimitStatementContext::accept(tree::ParseTreeVisitor *
 
 IIC3413DBParser::LimitStatementContext* IIC3413DBParser::limitStatement() {
   LimitStatementContext *_localctx = _tracker.createInstance<LimitStatementContext>(_ctx, getState());
-  enterRule(_localctx, 42, IIC3413DBParser::RuleLimitStatement);
+  enterRule(_localctx, 44, IIC3413DBParser::RuleLimitStatement);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1800,9 +1890,9 @@ IIC3413DBParser::LimitStatementContext* IIC3413DBParser::limitStatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(167);
+    setState(176);
     match(IIC3413DBParser::LIMIT);
-    setState(168);
+    setState(177);
     match(IIC3413DBParser::INTEGER);
    
   }
@@ -1827,6 +1917,10 @@ tree::TerminalNode* IIC3413DBParser::KeywordContext::AND() {
 
 tree::TerminalNode* IIC3413DBParser::KeywordContext::AS() {
   return getToken(IIC3413DBParser::AS, 0);
+}
+
+tree::TerminalNode* IIC3413DBParser::KeywordContext::BETWEEN() {
+  return getToken(IIC3413DBParser::BETWEEN, 0);
 }
 
 tree::TerminalNode* IIC3413DBParser::KeywordContext::CREATE() {
@@ -1900,7 +1994,7 @@ std::any IIC3413DBParser::KeywordContext::accept(tree::ParseTreeVisitor *visitor
 
 IIC3413DBParser::KeywordContext* IIC3413DBParser::keyword() {
   KeywordContext *_localctx = _tracker.createInstance<KeywordContext>(_ctx, getState());
-  enterRule(_localctx, 44, IIC3413DBParser::RuleKeyword);
+  enterRule(_localctx, 46, IIC3413DBParser::RuleKeyword);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1912,10 +2006,10 @@ IIC3413DBParser::KeywordContext* IIC3413DBParser::keyword() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(170);
+    setState(179);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 131070) != 0))) {
+      ((1ULL << _la) & 262142) != 0))) {
     _errHandler->recoverInline(this);
     }
     else {

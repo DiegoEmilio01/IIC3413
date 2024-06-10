@@ -10,6 +10,8 @@
 #include "relational_model/schema.h"
 #include "storage/heap_file/heap_file.h"
 
+using TableId = uint32_t;
+
 struct TableInfo {
     std::string name;
     std::unique_ptr<Schema> schema;
@@ -64,9 +66,14 @@ public:
     // returns nullptr if there is no index
     Index* get_index(const std::string& table_name);
 
+    // returns nullptr if there is no index
+    Index* get_index_for_column(const std::string& table_name, const std::string& column_name);
+
     Record& get_record_buf(const std::string& table_name);
 
     const TableInfo& get_table_info(const std::string& table_name) const;
+
+    FileId get_file_id(TableId tid);
 
     static std::string normalize(const std::string& table_name);
 

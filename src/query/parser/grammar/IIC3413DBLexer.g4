@@ -6,6 +6,7 @@ channels {
 
 AND:      A N D;
 AS:       A S;
+BETWEEN:  B E T W E E N;
 CREATE:   C R E A T E;
 DISTINCT: D I S T I N C T;
 FROM:     F R O M;

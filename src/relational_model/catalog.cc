@@ -321,3 +321,31 @@ const TableInfo& Catalog::get_table_info(const std::string& table_name) const {
     std::string normalized_table_name = normalize(table_name);
     return tables[get_table_pos(table_name)];
 }
+
+
+Index* Catalog::get_index_for_column(
+    const std::string& table_name,
+    const std::string& column_name)
+{
+    auto* index = get_index(table_name);
+    if (index == nullptr) return nullptr;
+
+    switch (index->get_type()) {
+    case IndexType::NC_ISAM: {
+        auto casted_isam = reinterpret_cast<IsamNonClustered*>(index);
+        auto& indexed_column = casted_isam->heap_file.schema.column_names[casted_isam->key_column_idx];
+        if (indexed_column == column_name) {
+            return index;
+        } else {
+            return nullptr;
+        }
+    }
+    default:
+        return nullptr;
+    }
+}
+
+FileId Catalog::get_file_id(TableId tid) {
+    assert(tables.size() > tid);
+    return tables[tid].heap_file->file_id;
+}

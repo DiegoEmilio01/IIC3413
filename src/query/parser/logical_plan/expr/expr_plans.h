@@ -1,5 +1,6 @@
 #pragma once
 
+#include "expr_plan_between.h"
 #include "expr_plan_column.h"
 #include "expr_plan_equals.h"
 #include "expr_plan_like.h"

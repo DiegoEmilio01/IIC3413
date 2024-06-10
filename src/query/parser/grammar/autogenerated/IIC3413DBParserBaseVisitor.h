@@ -83,6 +83,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitBetweenExpr(IIC3413DBParser::BetweenExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitColumnOrConstant(IIC3413DBParser::ColumnOrConstantContext *ctx) override {
     return visitChildren(ctx);
   }

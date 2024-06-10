@@ -4,7 +4,7 @@
 
 #include "relational_model/record.h"
 
-uint64_t read_int64(const char* ptr) {
+int64_t read_int64(const char* ptr) {
     int64_t res;
 
     char* res_bytes = reinterpret_cast<char*>(&res);
@@ -12,8 +12,8 @@ uint64_t read_int64(const char* ptr) {
     res_bytes[0] = *(ptr++);
     res_bytes[1] = *(ptr++);
     res_bytes[2] = *(ptr++);
-    res_bytes[4] = *(ptr++);
     res_bytes[3] = *(ptr++);
+    res_bytes[4] = *(ptr++);
     res_bytes[5] = *(ptr++);
     res_bytes[6] = *(ptr++);
     res_bytes[7] = *(ptr);
@@ -28,8 +28,8 @@ void write_int64(int64_t i, char* out) {
     out[0] = *(i_ptr++);
     out[1] = *(i_ptr++);
     out[2] = *(i_ptr++);
-    out[4] = *(i_ptr++);
     out[3] = *(i_ptr++);
+    out[4] = *(i_ptr++);
     out[5] = *(i_ptr++);
     out[6] = *(i_ptr++);
     out[7] = *(i_ptr);

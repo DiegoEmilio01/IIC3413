@@ -85,9 +85,25 @@ void Optimizer::visit(ProjectionPlan& projection) {
 
 
 void Optimizer::visit(SelectionPlan& selection) {
+    auto* child_relation = dynamic_cast<RelationPlan*>(selection.child.get());
+    bool child_is_relation = child_relation != nullptr;
+
     for (auto& e : selection.expressions) {
         for (auto& column: e->get_columns()) {
             column_usage[column] += 1;
+        }
+
+        if (child_is_relation) {
+            auto* between_plan_expr = dynamic_cast<ExprPlanBetween*>(e.get());
+            if (between_plan_expr != nullptr) {
+                auto* index = catalog.get_index_for_column(child_relation->table, between_plan_expr->child->column.column);
+                if (index != nullptr) {
+                    try_set_lower_bound(between_plan_expr->child->column, std::move(between_plan_expr->lower_bound));
+                    try_set_upper_bound(between_plan_expr->child->column, std::move(between_plan_expr->upper_bound));
+                    between_optimizations.insert({between_plan_expr->child->column.alias, between_plan_expr->child->column});
+                    deleted_expr_plans.insert(e.get());
+                }
+            }
         }
     }
 
@@ -99,9 +115,11 @@ void Optimizer::visit(SelectionPlan& selection) {
             column_usage[column] -= 1;
         }
 
-        ExprOptimizer expr_visitor(current_iter->get_columns(), current_iter->get_output());
-        e->accept_visitor(expr_visitor);
-        expressions.push_back(std::move(expr_visitor.current_expr));
+        if (deleted_expr_plans.find(e.get()) == deleted_expr_plans.end()) {
+            ExprOptimizer expr_visitor(current_iter->get_columns(), current_iter->get_output());
+            e->accept_visitor(expr_visitor);
+            expressions.push_back(std::move(expr_visitor.current_expr));
+        }
     }
 
     if (expressions.size() > 0) {
@@ -135,8 +153,16 @@ void Optimizer::visit(RelationPlan& relation) {
         }
     }
 
+    std::unique_ptr<RelationIter> relation_iter;
+    auto it1 = between_optimizations.find(relation.alias);
+    if (it1 != between_optimizations.end()) {
+        auto it2 = column_range.find(it1->second);
 
-    std::unique_ptr<RelationIter> relation_iter = table->get_record_iter();
+        auto* index = catalog.get_index_for_column(relation.table, it1->second.column);
+        relation_iter = index->get_iter(it2->second.first, it2->second.second);
+    } else {
+        relation_iter = table->get_record_iter();
+    }
 
     current_iter = std::make_unique<Relation>(
         std::move(relation_iter),
@@ -308,6 +334,17 @@ void ExprOptimizer::visit(ExprPlanLessOrEquals& e) {
 }
 
 
+void ExprOptimizer::visit(ExprPlanBetween& e) {
+    e.child->accept_visitor(*this);
+
+    current_expr = std::make_unique<ExprBetween>(
+        std::move(current_expr),
+        std::move(e.lower_bound),
+        std::move(e.upper_bound)
+    );
+}
+
+
 void ExprOptimizer::visit(ExprPlanLike& e) {
     e.column->accept_visitor(*this);
 
@@ -315,4 +352,46 @@ void ExprOptimizer::visit(ExprPlanLike& e) {
         std::move(current_expr),
         std::move(e.pattern)
     );
+}
+
+
+void Optimizer::try_set_lower_bound(const Column& column, Value&& value) {
+    auto it = column_range.find(column);
+
+    Value max = value;
+    if (value.datatype == DataType::INT) {
+        max.value.as_int = INT64_MAX;
+    } else {
+        max.value.as_str[0] = std::numeric_limits<unsigned char>::max();
+    }
+
+    if (it == column_range.end()) {
+        column_range.insert({column, {std::move(value), max}});
+    } else {
+        // if new lower bound is upper than previous one, update
+        if (it->second.first < value) {
+            it->second.first = std::move(value);
+        }
+    }
+}
+
+
+void Optimizer::try_set_upper_bound(const Column& column, Value&& value) {
+    auto it = column_range.find(column);
+
+    Value min = value;
+    if (value.datatype == DataType::INT) {
+        min.value.as_int = INT64_MIN;
+    } else {
+        min.value.as_str[0] = std::numeric_limits<unsigned char>::min();
+    }
+
+    if (it == column_range.end()) {
+        column_range.insert({column, {min, std::move(value)}});
+    } else {
+        // if new upper bound is lower than previous one, update
+        if (value < it->second.second) {
+            it->second.second = std::move(value);
+        }
+    }
 }

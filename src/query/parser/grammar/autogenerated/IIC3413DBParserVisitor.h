@@ -53,6 +53,8 @@ public:
 
     virtual std::any visitLikeExpr(IIC3413DBParser::LikeExprContext *context) = 0;
 
+    virtual std::any visitBetweenExpr(IIC3413DBParser::BetweenExprContext *context) = 0;
+
     virtual std::any visitColumnOrConstant(IIC3413DBParser::ColumnOrConstantContext *context) = 0;
 
     virtual std::any visitColumn(IIC3413DBParser::ColumnContext *context) = 0;

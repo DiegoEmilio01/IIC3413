@@ -21,6 +21,7 @@ public:
 
     std::unique_ptr<Expr> current_expr;
 
+    void visit(ExprPlanBetween&) override;
     void visit(ExprPlanLike&) override;
 
     void visit(ExprPlanColumn&) override;
@@ -41,6 +42,16 @@ public:
 
     // the plans are navigated via DFS, remembering how many usages each column have
     std::map<Column, size_t> column_usage;
+
+    std::map<Column, std::pair<Value, Value>> column_range;
+
+    // alias to column
+    std::map<std::string, Column> between_optimizations;
+
+    std::set<ExprPlan*> deleted_expr_plans;
+
+    void try_set_lower_bound(const Column& column, Value&& value);
+    void try_set_upper_bound(const Column& column, Value&& value);
 
     void visit(CartesianProductPlan&) override;
     void visit(JoinPlan&) override;

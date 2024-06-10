@@ -214,7 +214,6 @@ std::unique_ptr<RelationIter> IsamNonClustered::get_iter(const Value& min, const
         break;
     }
 
-    default: // to avoid compilation warning
     case DataType::INT: {
         encoded_min = min.value.as_int;
         encoded_max = max.value.as_int;

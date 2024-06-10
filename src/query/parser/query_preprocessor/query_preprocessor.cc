@@ -307,6 +307,31 @@ Value get_value(IIC3413DBParser::ConstantContext* ctx) {
 }
 
 
+std::any QueryPreprocessor::visitBetweenExpr(IIC3413DBParser::BetweenExprContext* ctx) {
+    auto col_expr = std::make_unique<ExprPlanColumn>(
+        get_column(ctx->column())
+    );
+
+    auto lower_bound = get_value(ctx->constant(0));
+    auto upper_bound = get_value(ctx->constant(1));
+
+    if (lower_bound.datatype != upper_bound.datatype) {
+        throw QueryException("BETWEEN bounds must have the same type");
+    }
+
+    if (lower_bound.datatype != col_expr->column.datatype) {
+        throw QueryException("BETWEEN bounds must have the same type as the column used");
+    }
+
+    current_expr = std::make_unique<ExprPlanBetween>(
+        std::move(col_expr),
+        std::move(lower_bound),
+        std::move(upper_bound)
+    );
+    return 0;
+}
+
+
 std::any QueryPreprocessor::visitColumnOrConstant(IIC3413DBParser::ColumnOrConstantContext* ctx) {
     if (ctx->column()) {
         current_expr = std::make_unique<ExprPlanColumn>(

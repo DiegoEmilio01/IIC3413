@@ -54,5 +54,6 @@ private:
     virtual std::any visitSimpleExpr(IIC3413DBParser::SimpleExprContext*) override;
     virtual std::any visitComparisonExpr(IIC3413DBParser::ComparisonExprContext*) override;
     virtual std::any visitLikeExpr(IIC3413DBParser::LikeExprContext*) override;
+    virtual std::any visitBetweenExpr(IIC3413DBParser::BetweenExprContext*) override;
     virtual std::any visitColumnOrConstant(IIC3413DBParser::ColumnOrConstantContext*) override;
 };

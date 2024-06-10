@@ -1,3 +1,4 @@
+#include "expr_between.h"
 #include "expr_column.h"
 #include "expr_equals.h"
 #include "expr_less.h"
