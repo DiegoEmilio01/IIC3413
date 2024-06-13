@@ -24,17 +24,26 @@ Value::Value(const Value& other) :
 }
 
 void Value::operator=(const Value& other) {
-    this->datatype = other.datatype;
-    this->value    = other.value;
-
-    if (datatype == DataType::STR) {
-        value.as_str = new char[Record::MAX_STRLEN+1];
+    if (other.datatype == DataType::STR) {
+        if (datatype != DataType::STR) {
+            value.as_str = new char[Record::MAX_STRLEN+1];
+        }
         std::memcpy(value.as_str, other.value.as_str, Record::MAX_STRLEN+1);
+    } else {
+        if (datatype == DataType::STR) {
+            delete[] value.as_str;
+        }
+        this->value = other.value;
     }
+    this->datatype = other.datatype;
 }
 
 
 void Value::operator=(Value&& other) {
+    if (datatype == DataType::STR) {
+        delete[] value.as_str;
+    }
+
     this->datatype = other.datatype;
     this->value    = other.value;
     if (datatype == DataType::STR) {
