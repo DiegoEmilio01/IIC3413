@@ -7,7 +7,7 @@ LogManager::LogManager() {
     buffer = new char[Page::SIZE];
 
     auto log_path = file_mgr.get_file_path("IIC3413log.cr");
-    log_file.open(log_path, std::ios::out);
+    log_file.open(log_path, std::ios::out|std::ios::app);
 }
 
 LogManager::~LogManager() {
