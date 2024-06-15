@@ -35,7 +35,12 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
+    // TODO: read the log and save useful info
+
+    log_file.close();
+
+    // After this line the log is truncated to an empty file
     auto system = System::init(db_directory, BufferManager::DEFAULT_BUFFER_SIZE);
 
-    // TODO: you must implement this
+    // TODO: do the recovery with the info you got from the log
 }
