@@ -1,10 +1,10 @@
 x.a,x.b
-"test.record.0",30
-"test.not.record.0",30
-"test.record.1",31
-"test.record.2",32
-"test.record.3",33
-"test.record.4",34
-"test.record.5",35
+"test-record-0",30
+"test-not-record-0",30
+"test-record-1",31
+"test-record-2",32
+"test-record-3",33
+"test-record-4",34
+"test-record-5",35
 
  got 7 results.

@@ -1,13 +1,13 @@
 x.a,x.b
-"test.not.record.0",30
-"test.not.record.1",40
-"test.not.record.2",50
-"test.not.record.3",60
-"test.not.record.4",70
-"test.not.record.5",80
-"test.not.record.6",90
-"test.not.record.7",100
-"test.not.record.8",110
-"test.not.record.9",120
+"test-not-record-0",30
+"test-not-record-1",40
+"test-not-record-2",50
+"test-not-record-3",60
+"test-not-record-4",70
+"test-not-record-5",80
+"test-not-record-6",90
+"test-not-record-7",100
+"test-not-record-8",110
+"test-not-record-9",120
 
  got 10 results.
