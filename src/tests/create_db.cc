@@ -32,8 +32,8 @@ int main() {
     if (table1 == nullptr) { // table doesn't exist
         table1 = catalog.create_table(table1_name, table1_schema);
         for (int i = 0; i < 10; i++) {
-            catalog.insert_record(table1_name, {"test.record." + std::to_string(i), i+30});
-            catalog.insert_record(table1_name, {"test.not.record." + std::to_string(i), 10*i+30});
+            catalog.insert_record(table1_name, {"test-record-" + std::to_string(i), i+30});
+            catalog.insert_record(table1_name, {"test-not-record-" + std::to_string(i), 10*i+30});
         }
 
         catalog.create_non_clustered_isam(table1_name, 0); // 0 represents column a

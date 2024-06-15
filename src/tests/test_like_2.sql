@@ -1,3 +1,3 @@
 SELECT *
 FROM T1 as x
-WHERE x.a LIKE "%.___.%"
+WHERE x.a LIKE "%-___-%"
