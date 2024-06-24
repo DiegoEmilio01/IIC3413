@@ -62,3 +62,15 @@ To use multiple cores during compilation (much faster) add `-j n` at the end of 
 cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug && cmake --build build/Debug/ -j 8
 ```
 
+## Lab testing:
+
+To create an example database:
+```bash
+./build/Debug/bin/create_example_db
+```
+that will create the database folder `data/test_example`.
+
+Then you can query the database with `execute_query`, passing as first parameter an existing database, and as a second parameter the path to a file with the query:
+```bash
+./build/Debug/bin/execute_query data/test_example data/example_queries/1.sql
+```
