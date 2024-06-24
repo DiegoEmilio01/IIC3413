@@ -26,23 +26,6 @@ cd IIC3413
 export IIC3413DB_HOME=$(pwd)
 ```
 
-Include Boost into the project
---------------------------------------------------------------------------------
-Download [`boost_1_81_0.tar.gz`](https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.gz) using a browser or wget:
-```bash
-wget -q --show-progress https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.gz
-```
-
-and run the following in the directory where boost was downloaded:
-```bash
-tar -xf boost_1_81_0.tar.gz
-mkdir -p $IIC3413DB_HOME/third_party/boost_1_81/include
-mv boost_1_81_0/boost $IIC3413DB_HOME/third_party/boost_1_81/include
-rm -r boost_1_81_0.tar.gz boost_1_81_0
-```
-
-Since we only use header-only Boost libraries it is not necessary to compile Boost separately.
-
 Build the Project:
 --------------------------------------------------------------------------------
 Go back into the repository root directory and configure and build:
