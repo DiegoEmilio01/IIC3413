@@ -1,0 +1,2 @@
+SELECT *
+FROM (R LEFT OUTER JOIN S ON R.a = S.x AND R.b = S.y) AS LOJ;

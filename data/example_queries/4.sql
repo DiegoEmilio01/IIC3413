@@ -1,0 +1,2 @@
+SELECT *
+FROM (R FULL OUTER JOIN S ON R.a = S.x AND R.b = S.y) AS FOJ;

@@ -203,8 +203,8 @@ IsamNonClustered::IsamNonClustered(
 
 
 std::unique_ptr<RelationIter> IsamNonClustered::get_iter(const Value& min, const Value& max) {
-    int64_t encoded_min;
-    int64_t encoded_max;
+    int64_t encoded_min = 0; // assigned to 0 just to avoid compilation warning
+    int64_t encoded_max = 0; // assigned to 0 just to avoid compilation warning
 
     auto key_datatype = heap_file.schema.datatypes[key_column_idx];
     switch (key_datatype) {

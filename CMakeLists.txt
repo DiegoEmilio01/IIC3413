@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Set project name and version
-project(IIC3413DB VERSION 0.4.0)
+project(IIC3413DB VERSION 0.5.0)
 
 # Specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -38,30 +38,27 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 # Define sources
 file(GLOB_RECURSE SRCS src/*.cc src/*.cpp)
 file(GLOB_RECURSE BIN_SRCS src/bin/*.cc)
-file(GLOB_RECURSE TEST_SRCS src/tests/*.cc)
+# file(GLOB_RECURSE TEST_SRCS src/tests/*.cc)
 
 # Remove unwanted files from common sources
 list(REMOVE_ITEM SRCS ${BIN_SRCS})
-list(REMOVE_ITEM SRCS ${TEST_SRCS})
+# list(REMOVE_ITEM SRCS ${TEST_SRCS})
 
 # Third party dependencies
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/antlr4-runtime-4.13.1)
 include_directories(${CMAKE_SOURCE_DIR}/third_party/antlr4-runtime-4.13.1/src)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/boost_1_81/include)
+# include_directories(${CMAKE_SOURCE_DIR}/third_party/boost_1_81/include)
 
 # Define targets
 add_library(iic3413db STATIC ${SRCS})
-target_compile_definitions(iic3413db PUBLIC SERD_STATIC)
 
 set(BUILD_TARGETS
-    print_log
-    recovery_real_undo
-    recovery_simple_undo
-    recovery_undo_redo
+    execute_query
+    create_example_db
 )
 
-set(TEST_TARGETS
-)
+# set(TEST_TARGETS
+# )
 
 # Build targets
 foreach(target ${BUILD_TARGETS})
@@ -74,18 +71,18 @@ foreach(target ${BUILD_TARGETS})
 endforeach(target)
 
 # Test targets
-enable_testing()
-foreach(target ${TEST_TARGETS})
-    add_executable(${target} ${CMAKE_SOURCE_DIR}/src/tests/${target}.cc)
-    set_target_properties(${target} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
-    target_link_libraries(${target}
-        iic3413db
-        antlr4_cpp_runtime
-        ${FS}
-    )
-    add_test(
-        NAME ${target}
-        COMMAND $<TARGET_FILE:${target}>
-        WORKING_DIRECTORY tests
-    )
-endforeach(target)
+# enable_testing()
+# foreach(target ${TEST_TARGETS})
+#     add_executable(${target} ${CMAKE_SOURCE_DIR}/src/tests/${target}.cc)
+#     set_target_properties(${target} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+#     target_link_libraries(${target}
+#         iic3413db
+#         antlr4_cpp_runtime
+#         ${FS}
+#     )
+#     add_test(
+#         NAME ${target}
+#         COMMAND $<TARGET_FILE:${target}>
+#         WORKING_DIRECTORY tests
+#     )
+# endforeach(target)

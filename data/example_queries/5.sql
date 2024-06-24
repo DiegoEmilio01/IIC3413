@@ -1,0 +1,5 @@
+SELECT *
+FROM (R FULL OUTER JOIN S ON R.a = S.x AND R.b = S.y) AS FOJ,
+     (S LEFT OUTER JOIN T ON S.x = T.u) AS LOJ,
+     T
+WHERE FOJ.a = LOJ.x AND LOJ.x = T.u;
