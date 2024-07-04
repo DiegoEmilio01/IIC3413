@@ -1,0 +1,2 @@
+SELECT *
+FROM T1,T2
