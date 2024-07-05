@@ -211,8 +211,13 @@ void Optimizer::visit(JoinPlan& join) {
         }
 
         for (auto& col_pair : join.join_columns) {
-            auto lhs_col = col_pair.first;
-            auto rhs_col = col_pair.second;
+            if (lhs_cols.size() == 0 || rhs_cols.size() == 0) {
+                break;
+            }
+
+            bool swap = col_pair.first.alias == rhs_cols[0].alias;
+            auto lhs_col = swap ? col_pair.second : col_pair.first;
+            auto rhs_col = swap ? col_pair.first : col_pair.second;
 
             int lhs_col_pos = -1;
             int rhs_col_pos = -1;
