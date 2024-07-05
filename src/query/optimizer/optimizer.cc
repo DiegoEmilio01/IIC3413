@@ -181,7 +181,7 @@ void Optimizer::visit(JoinPlan& join) {
 
     join.children[0]->accept_visitor(*this);
 
-    for (size_t i = 1; i < join.children.size(); i++) {
+    for (size_t j_i = 1; j_i < join.children.size(); j_i++) {
         std::vector<Column>                    projected_lhs_columns;
         std::vector<Column>                    projected_rhs_columns;
         std::vector<size_t>                    projected_lhs_columns_pos;
@@ -190,7 +190,7 @@ void Optimizer::visit(JoinPlan& join) {
 
         auto saved_lhs = std::move(current_iter);
 
-        join.children[1]->accept_visitor(*this);
+        join.children[j_i]->accept_visitor(*this);
         auto saved_rhs = std::move(current_iter);
 
         auto lhs_cols = saved_lhs->get_columns();
