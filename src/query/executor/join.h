@@ -24,6 +24,7 @@ public:
         rhs_out                   (rhs->get_output()),
         out                       (projected_lhs_columns.size() + projected_rhs_columns.size())
     {
+        assert(equalities.size() > 0);
         assert(projected_lhs_columns.size() == projected_lhs_columns_pos.size());
         assert(projected_rhs_columns.size() == projected_rhs_columns_pos.size());
 

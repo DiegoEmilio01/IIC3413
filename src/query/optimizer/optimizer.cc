@@ -241,16 +241,26 @@ void Optimizer::visit(JoinPlan& join) {
             }
         }
 
-
-        current_iter = std::make_unique<Join>(
-            std::move(saved_lhs),
-            std::move(saved_rhs),
-            std::move(projected_lhs_columns),
-            std::move(projected_rhs_columns),
-            std::move(projected_lhs_columns_pos),
-            std::move(projected_rhs_columns_pos),
-            std::move(equalities)
-        );
+        if (equalities.empty()) {
+            current_iter = std::make_unique<CartesianProduct>(
+                std::move(saved_lhs),
+                std::move(saved_rhs),
+                std::move(projected_lhs_columns),
+                std::move(projected_rhs_columns),
+                std::move(projected_lhs_columns_pos),
+                std::move(projected_rhs_columns_pos)
+            );
+        } else {
+            current_iter = std::make_unique<Join>(
+                std::move(saved_lhs),
+                std::move(saved_rhs),
+                std::move(projected_lhs_columns),
+                std::move(projected_rhs_columns),
+                std::move(projected_lhs_columns_pos),
+                std::move(projected_rhs_columns_pos),
+                std::move(equalities)
+            );
+        }
 
     }
     for (const auto& join_column : join.join_columns) {
