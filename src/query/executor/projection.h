@@ -17,9 +17,9 @@ public:
         auto child_cols = child->get_columns();
         auto& child_out = child->get_output();
         for (size_t i = 0; i < projected_columns.size(); i++) {
-            for (auto& child_col : child_cols) {
-                if (child_col == projected_columns[i]) {
-                    out.values[i] = child_out.values[i];
+            for (size_t j = 0; j < child_cols.size(); j++) {
+                if (child_cols[j] == projected_columns[i]) {
+                    out.values[i] = child_out.values[j];
                 }
             }
             assert(out.values[i] != nullptr);
